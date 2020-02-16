@@ -1,6 +1,12 @@
 from argparse import ArgumentParser
+from pathlib import Path
+
+from skimage.io import imsave
 
 from triangler import process
+from triangler.color import ColorMethod
+from triangler.edges import EdgeMethod
+from triangler.sampling import SampleMethod
 
 
 def main():
@@ -21,7 +27,7 @@ def main():
         "--edge-detector",
         help="Pre-processing method to use.",
         type=str,
-        default="entropy",
+        default="canny",
         choices=["canny", "entropy"],
     )
     parser.add_argument(
@@ -38,10 +44,15 @@ def main():
 
     args = parser.parse_args()
 
-    process.main(
+    result = process.main(
         path=args.image,
-        coloring=args.color,
-        sampling=args.sample,
-        edging=args.edge_detector,
+        coloring=ColorMethod[args.color.upper()],
+        sampling=SampleMethod[args.sample.upper()],
+        edging=EdgeMethod[args.edge_detector.upper()],
         points=args.points,
+    )
+
+    imsave(
+        args.o or Path(args.image).name + "_tri.jpg",
+        result
     )
