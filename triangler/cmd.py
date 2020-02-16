@@ -24,7 +24,7 @@ def main():
     )
     parser.add_argument(
         "-e",
-        "--edge-detector",
+        "--edge",
         help="Pre-processing method to use.",
         type=str,
         default="canny",
@@ -52,7 +52,4 @@ def main():
         points=args.points,
     )
 
-    imsave(
-        args.o or Path(args.image).name + "_tri.jpg",
-        result
-    )
+    imsave(args.o or (Path(args.image).name + "_tri.jpg"), result)
