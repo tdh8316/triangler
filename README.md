@@ -1,9 +1,9 @@
 # Overview
 `Triangler` is a tool to generate Low-Polygon image using [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
 
-![sample](./docs/parrot_tri.jpg)
+![sample](./docs/m_tri2.jpg)
 
->**Warning: Triangler is extremely slow if use Entropy Edge Detection and Poisson Disk Sampling option.**
+>**Warning: Triangler is extremely slow, but provide the best result if use Entropy Edge Detection and Poisson Disk Sampling option.**
 
 It takes about 5s-3m.
 
@@ -41,15 +41,17 @@ optional arguments:
 `$ python -m triangler image.jpg -p=1000`
 
 # Sample
-|Original|5000 Points|2500 Points|1000 Points|
-|--------|-----------|-----------|-----------|
-|![sample](./docs/m.jpg)|![sample](./docs/m_tri.jpg)|![sample](./docs/m_tri2.jpg)|![sample](./docs/m_tri3.jpg)|
+|Original|5000 Points|
+|:------:|:---------:|
+|![sample](./docs/m.jpg)|![sample](./docs/m_tri.jpg)
+|**2500 Points**|**1000 Points**|
+|![sample](./docs/m_tri2.jpg)|![sample](./docs/m_tri3.jpg)|
 
 |Original|Processed|
 |--------|---------|
 |![sample](./docs/parrot.jpg)|![sample](./docs/parrot_tri.jpg)|
 |![sample](./docs/yeji2.jpg)|![sample](./docs/yeji2_tri.jpg)|
-|![sample](./docs/yeji1.jpg)|![sample](./docs/yeji1_tri.jpg)|
+|![sample](./docs/matt.jpg)|![sample](./docs/matt_tri.jpg)|
 |![sample](./docs/sino.jpg)|![sample](./docs/sino_tri.jpg)|
 
 ## Acknowledgement
