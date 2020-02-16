@@ -13,7 +13,7 @@ from skimage.filters.rank import entropy
 from skimage.morphology import disk, dilation
 
 from triangler.poisson_disk_sampling import poisson_disk_sample
-from triangler.sampling import SampleMethod
+from triangler.sampling import SampleMethod, random_sample
 from triangler.threshold_sampling import threshold_sample
 
 
@@ -36,22 +36,35 @@ class Point(object):
 
         self.edge_method: EdgeMethod = edge
 
-    @numba.jit(parallel=True)
     def generate(self, blur: int, sampling: SampleMethod) -> ndarray:
         """
         Retrieves the triangle points using Canny Edge Detection
         """
-        edges: ndarray = ...
         if self.edge_method is EdgeMethod.CANNY:
             edges = Canny.compute(self.img, blur)
         elif self.edge_method is EdgeMethod.ENTROPY:
             edges = Entropy.compute(self.img)
+        else:
+            raise ValueError(
+                "Unexpected edge processing method: {}\n"
+                "use {} instead: {}".format(
+                    sampling, SampleMethod.__name__, SampleMethod.__members__
+                )
+            )
 
-        sample_points = None
         if sampling is SampleMethod.POISSON_DISK:
             sample_points = poisson_disk_sample(self.num_of_points, edges)
         elif sampling is SampleMethod.THRESHOLD:
             sample_points = threshold_sample(self.num_of_points, edges, 0.2)
+        elif sampling is SampleMethod.RANDOM:
+            sample_points = random_sample(self.num_of_points, self.width, self.height)
+        else:
+            raise ValueError(
+                "Unexpected coloring method: {}\n"
+                "use {} instead: {}".format(
+                    sampling, SampleMethod.__name__, SampleMethod.__members__
+                )
+            )
 
         corners = np.array(
             [

@@ -3,7 +3,7 @@ import numpy as np
 from numpy.random import choice
 
 
-@numba.jit
+@numba.jit(parallel=True)
 def threshold_sample(n, weights, threshold):
     """
     Sample the weighted points uniformly above a certain threshold.

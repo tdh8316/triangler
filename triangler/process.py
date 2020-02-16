@@ -2,9 +2,9 @@ import warnings
 
 import numba
 import numpy as np
+from imageio import imread
 from numba.errors import NumbaWarning
 from numpy.core.multiarray import ndarray
-from scipy.misc.pilutil import imread
 from scipy.spatial import Delaunay
 from skimage.draw import polygon
 from skimage.transform import pyramid_reduce
@@ -27,7 +27,6 @@ def main(
 ):
     img: ndarray = imread(path)
     sample_points: ndarray = Point(img, points, edging).generate(blur, sampling)
-
     triangulated: Delaunay = Delaunay(sample_points)
 
     # noinspection PyUnresolvedReferences
