@@ -1,2 +1,4 @@
+from triangler import cmd
+
 if __name__ == "__main__":
-    raise NotImplementedError
+    cmd.main()

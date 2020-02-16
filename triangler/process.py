@@ -23,7 +23,7 @@ def main(
     sampling: SampleMethod,
     edging: EdgeMethod,
     points: int,
-    blur: int = 1,
+    blur: int = 2,
 ):
     img: ndarray = imread(path)
     sample_points: ndarray = Point(img, points, edging).generate(blur, sampling)
