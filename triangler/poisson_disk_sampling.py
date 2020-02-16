@@ -6,7 +6,17 @@ from numpy import random
 from scipy.spatial import KDTree
 
 
+@numba.njit
+def in_bounds(point, width, height):
+    return 0 <= point[0] < width and 0 <= point[1] < height
+
+
 @numba.jit
+def has_neighbor(new_point, rads, tree):
+    return len(tree.query_ball_point(new_point, rads[new_point])) > 0
+
+
+@numba.jit(fastmath=True, parallel=True)
 def poisson_disk_sample(n, weights):
     """
     Performs weighted poisson disk sampling over a region.
@@ -23,7 +33,7 @@ def poisson_disk_sample(n, weights):
 
     Returns
     -------
-    ist :
+    list :
         List of sampled points
     """
     width = weights.shape[0]
@@ -50,8 +60,8 @@ def poisson_disk_sample(n, weights):
         for it in range(16):
             new_point = get_point_near(point, rads, max_rad)
 
-            if (0 <= new_point[0] < width and 0 <= new_point[1] < height) and (
-                len(tree.query_ball_point(new_point, rads[new_point])) > 0
+            if in_bounds(new_point, width=width, height=height) and not has_neighbor(
+                new_point, rads, tree
             ):
                 queue.append(new_point)
                 sample_points.append(new_point)
@@ -65,7 +75,7 @@ def poisson_disk_sample(n, weights):
     return np.array(list(sample_points))
 
 
-@numba.jit
+@numba.njit(parallel=True)
 def get_point_near(point, rads, max_rad) -> Tuple[int, int]:
     """
     Randomly samples an annulus near a given point using a uniform

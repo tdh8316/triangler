@@ -10,18 +10,23 @@ from skimage.draw import polygon
 from skimage.transform import pyramid_reduce
 
 from triangler.color import ColorMethod
-from triangler.edges import Point
+from triangler.edges import Point, EdgeMethod
 from triangler.sampling import SampleMethod
 
 warnings.simplefilter("ignore", category=NumbaWarning)
 
 
-@numba.jit
+@numba.jit(fastmath=True, parallel=True)
 def main(
-    path: str, coloring: ColorMethod, sampling: SampleMethod, blur: int, points: int,
+    path: str,
+    coloring: ColorMethod,
+    sampling: SampleMethod,
+    edging: EdgeMethod,
+    points: int,
+    blur: int = 1,
 ):
     img: ndarray = imread(path)
-    sample_points: ndarray = Point(img, points).generate(blur, sampling)
+    sample_points: ndarray = Point(img, points, edging).generate(blur, sampling)
 
     triangulated: Delaunay = Delaunay(sample_points)
 
