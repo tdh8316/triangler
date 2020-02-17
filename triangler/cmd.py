@@ -44,7 +44,7 @@ def main():
 
     args = parser.parse_args()
 
-    result = process.main(
+    result = process.process(
         path=args.image,
         coloring=ColorMethod[args.color.upper()],
         sampling=SampleMethod[args.sample.upper()],

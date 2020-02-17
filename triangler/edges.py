@@ -12,9 +12,11 @@ from skimage.filters import scharr, gaussian
 from skimage.filters.rank import entropy
 from skimage.morphology import disk, dilation
 
-from triangler.poisson_disk_sampling import poisson_disk_sample
-from triangler.sampling import SampleMethod, random_sample
-from triangler.threshold_sampling import threshold_sample
+from triangler.sampling import (
+    SampleMethod,
+    poisson_disk_sample,
+    threshold_sample,
+)
 
 
 class EdgeMethod(Enum):
@@ -25,7 +27,7 @@ class EdgeMethod(Enum):
     SOBEL = enum.auto()
 
 
-class Point(object):
+class EdgePoints(object):
     def __init__(self, img: ndarray, n: int, edge: EdgeMethod):
         self.img = img
         self.width = self.img.shape[0]
@@ -37,7 +39,7 @@ class Point(object):
 
         self.edge_method: EdgeMethod = edge
 
-    def generate(self, blur: int, sampling: SampleMethod) -> ndarray:
+    def get_edge_points(self, blur: int, sampling: SampleMethod) -> ndarray:
         """
         Retrieves the triangle points using Canny Edge Detection
         """
@@ -45,11 +47,13 @@ class Point(object):
             edges = Canny.compute(self.img, blur)
         elif self.edge_method is EdgeMethod.ENTROPY:
             edges = Entropy.compute(self.img)
+        elif self.edge_method is EdgeMethod.SOBEL:
+            edges = Sobel.compute(self.img, k_size=5)
         else:
             raise ValueError(
                 "Unexpected edge processing method: {}\n"
                 "use {} instead: {}".format(
-                    sampling, SampleMethod.__name__, SampleMethod.__members__
+                    self.edge_method, SampleMethod.__name__, SampleMethod.__members__
                 )
             )
 
@@ -57,11 +61,9 @@ class Point(object):
             sample_points = poisson_disk_sample(self.num_of_points, edges)
         elif sampling is SampleMethod.THRESHOLD:
             sample_points = threshold_sample(self.num_of_points, edges, 0.2)
-        elif sampling is SampleMethod.RANDOM:
-            sample_points = random_sample(self.num_of_points, self.width, self.height)
         else:
             raise ValueError(
-                "Unexpected coloring method: {}\n"
+                "Unexpected sampling method: {}\n"
                 "use {} instead: {}".format(
                     sampling, SampleMethod.__name__, SampleMethod.__members__
                 )
@@ -129,7 +131,7 @@ class Entropy(object):
 
 class Sobel(object):
     @staticmethod
-    @numba.jit
+    @numba.jit(fastmath=True)
     def compute(img: ndarray, k_size: int = 3) -> ndarray:
         im = img.astype(np.float)
         width, height, c = im.shape
@@ -138,25 +140,35 @@ class Sobel(object):
         else:
             img = im
 
-        assert (k_size == 3 or k_size == 5);
+        assert k_size == 3 or k_size == 5
 
         if k_size == 3:
             kh = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]], dtype=np.float)
             kv = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]], dtype=np.float)
         else:
-            kh = np.array([[-1, -2, 0, 2, 1],
-                           [-4, -8, 0, 8, 4],
-                           [-6, -12, 0, 12, 6],
-                           [-4, -8, 0, 8, 4],
-                           [-1, -2, 0, 2, 1]], dtype=np.float)
-            kv = np.array([[1, 4, 6, 4, 1],
-                           [2, 8, 12, 8, 2],
-                           [0, 0, 0, 0, 0],
-                           [-2, -8, -12, -8, -2],
-                           [-1, -4, -6, -4, -1]], dtype=np.float)
+            kh = np.array(
+                [
+                    [-1, -2, 0, 2, 1],
+                    [-4, -8, 0, 8, 4],
+                    [-6, -12, 0, 12, 6],
+                    [-4, -8, 0, 8, 4],
+                    [-1, -2, 0, 2, 1],
+                ],
+                dtype=np.float,
+            )
+            kv = np.array(
+                [
+                    [1, 4, 6, 4, 1],
+                    [2, 8, 12, 8, 2],
+                    [0, 0, 0, 0, 0],
+                    [-2, -8, -12, -8, -2],
+                    [-1, -4, -6, -4, -1],
+                ],
+                dtype=np.float,
+            )
 
-        gx = convolve2d(img, kh, mode='same', boundary='symm')
-        gy = convolve2d(img, kv, mode='same', boundary='symm')
+        gx = convolve2d(img, kh, mode="same", boundary="symm")
+        gy = convolve2d(img, kv, mode="same", boundary="symm")
 
         g = np.sqrt(gx * gx + gy * gy)
         g *= 255.0 / np.max(g)
