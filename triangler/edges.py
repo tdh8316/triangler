@@ -18,10 +18,11 @@ from triangler.threshold_sampling import threshold_sample
 
 
 class EdgeMethod(Enum):
-    __dict__ = ("CANNY", "ENTROPY")
+    __dict__ = ("CANNY", "ENTROPY", "SOBEL")
 
     CANNY = enum.auto()
     ENTROPY = enum.auto()
+    SOBEL = enum.auto()
 
 
 class Point(object):
@@ -103,7 +104,7 @@ class Canny(object):
 class Entropy(object):
     @staticmethod
     @numba.jit
-    def compute(img, bal=0.1) -> ndarray:
+    def compute(img: ndarray, bal=0.1) -> ndarray:
         dn_img = skimage.restoration.denoise_tv_bregman(img, 0.1)
         img_gray = rgb2gray(dn_img)
         img_lab = rgb2lab(dn_img)
@@ -124,3 +125,40 @@ class Entropy(object):
         weight /= np.amax(weight)
 
         return weight
+
+
+class Sobel(object):
+    @staticmethod
+    @numba.jit
+    def compute(img: ndarray, k_size: int = 3) -> ndarray:
+        im = img.astype(np.float)
+        width, height, c = im.shape
+        if c > 1:
+            img = 0.2126 * im[:, :, 0] + 0.7152 * im[:, :, 1] + 0.0722 * im[:, :, 2]
+        else:
+            img = im
+
+        assert (k_size == 3 or k_size == 5);
+
+        if k_size == 3:
+            kh = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]], dtype=np.float)
+            kv = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]], dtype=np.float)
+        else:
+            kh = np.array([[-1, -2, 0, 2, 1],
+                           [-4, -8, 0, 8, 4],
+                           [-6, -12, 0, 12, 6],
+                           [-4, -8, 0, 8, 4],
+                           [-1, -2, 0, 2, 1]], dtype=np.float)
+            kv = np.array([[1, 4, 6, 4, 1],
+                           [2, 8, 12, 8, 2],
+                           [0, 0, 0, 0, 0],
+                           [-2, -8, -12, -8, -2],
+                           [-1, -4, -6, -4, -1]], dtype=np.float)
+
+        gx = convolve2d(img, kh, mode='same', boundary='symm')
+        gy = convolve2d(img, kv, mode='same', boundary='symm')
+
+        g = np.sqrt(gx * gx + gy * gy)
+        g *= 255.0 / np.max(g)
+
+        return g
