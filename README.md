@@ -3,10 +3,6 @@
 
 ![sample](./docs/m_tri2.jpg)
 
->**Warning: Triangler is extremely slow, but provide the best result if use Entropy Edge Detection and Poisson Disk Sampling option.**
-
-It takes about 5s-3m.
-
 # Usage
 Currently, the interface for end-users is only Command-Line.
 
@@ -14,8 +10,8 @@ Currently, the interface for end-users is only Command-Line.
 $ git clone https://github.com/tdh8316/triangler.git
 $ python -m pip install setup.py
 $ python -m triangler -h
-usage: __main__.py [-h] [-o O] [-s {poisson_disk,threshold}]
-                   [-e {canny,entropy}] [-c {centroid,mean}] [-p POINTS]
+usage: __main__.py [-h] [-o O] [-s {POISSON_DISK,THRESHOLD}]
+                   [-e {CANNY,ENTROPY,SOBEL}] [-c {MEAN,CENTROID}] [-p POINTS]
                    image
 
 positional arguments:
@@ -23,22 +19,25 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -o O                  Destination file
-  -s {poisson_disk,threshold}, --sample {poisson_disk,threshold}
-                        Sampling method for candidate points.
-                        Default: poisson_disk
-  -e {canny,entropy}, --edge {canny,entropy}
-                        Pre-processing method to use.
-                        Default: entropy
-  -c {centroid,mean}, --color {centroid,mean}
-                        Coloring method for rendering.
-                        Default: centroid
+  -o O                  Destination file (default: None)
+  -s {POISSON_DISK,THRESHOLD}, --sample {POISSON_DISK,THRESHOLD}
+                        Sampling method for candidate points. 
+                        (default:threshold)
+  -e {CANNY,ENTROPY,SOBEL}, --edge {CANNY,ENTROPY,SOBEL}
+                        Pre-processing method to use. (default: sobel)
+  -c {MEAN,CENTROID}, --color {MEAN,CENTROID}
+                        Coloring method for rendering. (default: centroid)
   -p POINTS, --points POINTS
-                        Points threshold.
+                        Points threshold. (default: 4096)
+
 ```
 
+The `POISSON_DISK` option is extremely slow, however it can provide the best result.
+
+It takes a minimum of 5 seconds to a maximum of 3 minutes.
+
 ## Example command
-`$ python -m triangler image.jpg -p=1000`
+`$ python -m triangler image.jpg -o output.jpg -p=1000`
 
 # Sample
 |Original|5000 Points|
@@ -55,8 +54,8 @@ optional arguments:
 |![sample](./docs/sino.jpg)|![sample](./docs/sino_tri.jpg)|
 
 ## Acknowledgement
-The `Edge Detection` and `Sampling` algorithms are based on [pmaldonado/PyTri](https://github.com/pmaldonado/PyTri/blob/master/delaunay)
+The `Canny Edge Detection` and `Sampling` algorithms are based on [pmaldonado/PyTri](https://github.com/pmaldonado/PyTri/blob/master/delaunay)
 
 ## TODO
- - [ ] Sobel
- - [ ] Optimization
+ - [x] Sobel
+ 

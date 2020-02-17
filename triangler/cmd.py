@@ -1,16 +1,17 @@
-from argparse import ArgumentParser
+from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from pathlib import Path
 
 from skimage.io import imsave
 
-from triangler import process
 from triangler.color import ColorMethod
 from triangler.edges import EdgeMethod
+from triangler.process import process
 from triangler.sampling import SampleMethod
 
 
+# noinspection PyProtectedMember
 def main():
-    parser = ArgumentParser()
+    parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
 
     parser.add_argument("image", help="Source file", type=str)
     parser.add_argument("-o", help="Destination file", type=str, default=None)
@@ -20,15 +21,15 @@ def main():
         help="Sampling method for candidate points.",
         type=str,
         default="threshold",
-        choices=["poisson_disk", "threshold"],
+        choices=SampleMethod._member_names_,
     )
     parser.add_argument(
         "-e",
         "--edge",
         help="Pre-processing method to use.",
         type=str,
-        default="canny",
-        choices=["canny", "entropy"],
+        default="sobel",
+        choices=EdgeMethod._member_names_,
     )
     parser.add_argument(
         "-c",
@@ -36,7 +37,7 @@ def main():
         help="Coloring method for rendering.",
         type=str,
         default="centroid",
-        choices=["centroid", "mean"],
+        choices=ColorMethod._member_names_,
     )
     parser.add_argument(
         "-p", "--points", help="Points threshold.", type=int, default=4096
@@ -44,7 +45,7 @@ def main():
 
     args = parser.parse_args()
 
-    result = process.process(
+    result = process(
         path=args.image,
         coloring=ColorMethod[args.color.upper()],
         sampling=SampleMethod[args.sample.upper()],
