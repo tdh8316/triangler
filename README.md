@@ -5,7 +5,12 @@
 
 # Usage
 Currently, the interface for end-users is only Command-Line.
-
+```cmd
+$ git clone https://github.com/tdh8316/triangler.git
+$ python -m pip install -r requirements.txt
+$ python triangler-cli.py
+```
+## Install
 ```cmd
 $ git clone https://github.com/tdh8316/triangler.git
 $ python -m pip install setup.py
