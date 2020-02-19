@@ -56,7 +56,6 @@ It takes a minimum of 5 seconds to a maximum of 3 minutes.
 |![sample](./docs/parrot.jpg)|![sample](./docs/parrot_tri.jpg)|
 |![sample](./docs/yeji2.jpg)|![sample](./docs/yeji2_tri.jpg)|
 |![sample](./docs/matt.jpg)|![sample](./docs/matt_tri.jpg)|
-|![sample](./docs/sino.jpg)|![sample](./docs/sino_tri.jpg)|
 
 ## Acknowledgement
 The `Canny Edge Detection` and `Sampling` algorithms are based on [pmaldonado/PyTri](https://github.com/pmaldonado/PyTri/blob/master/delaunay)
