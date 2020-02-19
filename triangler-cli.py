@@ -10,13 +10,16 @@ from triangler.sampling import SampleMethod
 op = input("IMAGE PATH:")
 sp = input("SAVE AS:")
 
-e = EdgeMethod[input(f"EDGING{EdgeMethod.__members__}[SOBEL]").upper() or "SOBEL"]
+# noinspection PyProtectedMember
+e = EdgeMethod[input(f"EDGING{EdgeMethod._member_names_}[SOBEL]").upper() or "SOBEL"]
 b = int(input("BLUR[2]:") or 2)
+# noinspection PyProtectedMember
 s = SampleMethod[
-    input(f"SAMPLING{SampleMethod.__members__}[POISSON_DISK]:").upper() or "POISSON_DISK"
+    input(f"SAMPLING{SampleMethod._member_names_}[POISSON_DISK]:").upper() or "POISSON_DISK"
     ]
 p = int(input("POINTS[1000]:") or 1000)
-c = ColorMethod[input(f"COLORING{ColorMethod.__members__}[CENTROID]:").upper() or "CENTROID"]
+# noinspection PyProtectedMember
+c = ColorMethod[input(f"COLORING{ColorMethod._member_names_}[CENTROID]:").upper() or "CENTROID"]
 
 start = timeit.default_timer()
 imsave(
