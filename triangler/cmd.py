@@ -51,6 +51,7 @@ def main() -> None:
 
     args = parser.parse_args()
 
+    # Use multiprocessing to process multiple files at the same time
     calls: List[multiprocessing.Process] = []
 
     for image in args.images:

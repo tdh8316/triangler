@@ -10,31 +10,30 @@ $ git clone https://github.com/tdh8316/triangler.git
 $ python -m pip install -r requirements.txt
 $ python triangler-cli.py
 ```
-## Install
+## Setup
 ```cmd
 $ git clone https://github.com/tdh8316/triangler.git
 $ python -m pip install setup.py
 $ python -m triangler -h
-usage: __main__.py [-h] [-o O] [-s {POISSON_DISK,THRESHOLD}]
+usage: __main__.py [-h] [-o OUTPUT [OUTPUT ...]] [-s {POISSON_DISK,THRESHOLD}]
                    [-e {CANNY,ENTROPY,SOBEL}] [-c {MEAN,CENTROID}] [-p POINTS]
-                   image
+                   images [images ...]
 
 positional arguments:
-  image                 Source file
+  images                Source files
 
 optional arguments:
   -h, --help            show this help message and exit
-  -o O                  Destination file (default: None)
+  -o OUTPUT [OUTPUT ...], --output OUTPUT [OUTPUT ...]
+                        Destination file (default: None)
   -s {POISSON_DISK,THRESHOLD}, --sample {POISSON_DISK,THRESHOLD}
-                        Sampling method for candidate points. 
-                        (default:threshold)
+                        Sampling method for candidate points. (default: THRESHOLD)
   -e {CANNY,ENTROPY,SOBEL}, --edge {CANNY,ENTROPY,SOBEL}
-                        Pre-processing method to use. (default: sobel)
+                        Pre-processing method to use. (default: SOBEL)
   -c {MEAN,CENTROID}, --color {MEAN,CENTROID}
-                        Coloring method for rendering. (default: centroid)
+                        Coloring method for rendering. (default: CENTROID)
   -p POINTS, --points POINTS
-                        Points threshold. (default: 4096)
-
+                        Points threshold. (default: 1024)
 ```
 
 The `POISSON_DISK` option is extremely slow, however it can provide the best result.
@@ -42,7 +41,7 @@ The `POISSON_DISK` option is extremely slow, however it can provide the best res
 It takes a minimum of 5 seconds to a maximum of 3 minutes.
 
 ## Example command
-`$ python -m triangler image.jpg -o output.jpg -p=1000`
+`$ python -m triangler image.jpg -o output.jpg -s poisson_disk`
 
 # Sample
 |Original|5000 Points|
@@ -53,13 +52,10 @@ It takes a minimum of 5 seconds to a maximum of 3 minutes.
 
 |Original|Processed|
 |--------|---------|
-|![sample](./docs/parrot.jpg)|![sample](./docs/parrot_tri.jpg)|
+|![sample](./docs/birds.jpg)|![sample](./docs/birds_tri.jpg)|
 |![sample](./docs/yeji2.jpg)|![sample](./docs/yeji2_tri.jpg)|
-|![sample](./docs/matt.jpg)|![sample](./docs/matt_tri.jpg)|
+|![sample](./docs/wolf.jpg)|![sample](./docs/wolf_tri.jpg)|
+|![sample](./docs/parrot.jpg)|![sample](./docs/parrot_tri.jpg)|
 
-## Acknowledgement
-The `Canny Edge Detection` and `Sampling` algorithms are based on [pmaldonado/PyTri](https://github.com/pmaldonado/PyTri/blob/master/delaunay)
-
-## TODO
- - [x] Sobel
- 
+# License
+Licensed under the **MIT** License.

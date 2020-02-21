@@ -1,3 +1,7 @@
+"""
+Based on: https://github.com/pmaldonado/PyTri/blob/master/delaunay.py#L56
+"""
+
 import enum
 from typing import Tuple
 
