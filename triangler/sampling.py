@@ -13,17 +13,19 @@ class SampleMethod(enum.Enum):
     THRESHOLD = enum.auto()
 
 
-@numba.jit
-def in_bounds(point, width, height) -> bool:
+@numba.jit(nopython=True, parallel=True)
+def in_bounds(point: Tuple[int, int], width: int, height: int) -> bool:
     return 0 <= point[0] < width and 0 <= point[1] < height
 
 
-@numba.jit(forceobj=True)
-def has_neighbor(new_point, rads, tree) -> bool:
+@numba.jit
+def has_neighbor(
+    new_point: Tuple[int, int], rads: np.ndarray, tree: scipy.spatial.KDTree
+) -> bool:
     return len(tree.query_ball_point(new_point, rads[new_point])) > 0
 
 
-@numba.jit(fastmath=True, parallel=True, forceobj=True)
+@numba.jit(fastmath=True, parallel=True)
 def poisson_disk_sample(n, weights) -> np.ndarray:
     """
     Performs weighted poisson disk sampling over a region.
@@ -82,7 +84,7 @@ def poisson_disk_sample(n, weights) -> np.ndarray:
     return np.array(list(sample_points))
 
 
-@numba.njit(parallel=True)
+@numba.jit(parallel=True, nopython=True)
 def get_point_near(
     point: Tuple[int, int], rads: np.array, max_rad: int
 ) -> Tuple[int, int]:
@@ -109,7 +111,7 @@ def get_point_near(
     return int(new_point[0]), int(new_point[1])
 
 
-@numba.jit(parallel=True)
+@numba.jit(parallel=True, nopython=True)
 def threshold_sample(n, weights, threshold):
     """
     Sample the weighted points uniformly above a certain threshold.

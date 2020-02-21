@@ -82,7 +82,7 @@ class EdgePoints(object):
 
 class Canny(object):
     @staticmethod
-    @numba.jit(parallel=True)
+    @numba.jit(parallel=True, fastmath=True)
     def compute(img: ndarray, blur: int) -> ndarray:
         # gray_img = rgb2gray(self.img)
         # return cv2.Canny(gray_img, self.threshold, self.threshold*3)
@@ -105,7 +105,7 @@ class Canny(object):
 
 class Entropy(object):
     @staticmethod
-    @numba.jit
+    @numba.jit(fastmath=True)
     def compute(img: ndarray, bal=0.1) -> ndarray:
         dn_img = skimage.restoration.denoise_tv_bregman(img, 0.1)
         img_gray = rgb2gray(dn_img)
@@ -131,7 +131,7 @@ class Entropy(object):
 
 class Sobel(object):
     @staticmethod
-    @numba.jit(fastmath=True)
+    @numba.jit(parallel=True, fastmath=True)
     def compute(img: ndarray, k_size: int = 3) -> ndarray:
         im = img.astype(np.float)
         width, height, c = im.shape
