@@ -54,7 +54,7 @@ It takes a minimum of 5 seconds to a maximum of 3 minutes.
 |--------|---------|
 |![sample](./docs/birds.jpg)|![sample](./docs/birds_tri.jpg)|
 |![sample](./docs/yeji2.jpg)|![sample](./docs/yeji2_tri.jpg)|
-|![sample](./docs/wolf.jpg)|![sample](./docs/wolf_tri.jpg)|
+|![sample](./docs/dog.jpg)|![sample](./docs/dog_tri.jpg)|
 |![sample](./docs/parrot.jpg)|![sample](./docs/parrot_tri.jpg)|
 
 # License
