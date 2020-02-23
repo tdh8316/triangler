@@ -16,7 +16,8 @@ $ git clone https://github.com/tdh8316/triangler.git
 $ python -m pip install setup.py
 $ python -m triangler -h
 usage: __main__.py [-h] [-o OUTPUT [OUTPUT ...]] [-s {POISSON_DISK,THRESHOLD}]
-                   [-e {CANNY,ENTROPY,SOBEL}] [-c {MEAN,CENTROID}] [-p POINTS]
+                   [-e {CANNY,ENTROPY,SOBEL}] [-b BLUR] [-c {MEAN,CENTROID}]
+                   [-p POINTS] [-v]
                    images [images ...]
 
 positional arguments:
@@ -30,10 +31,13 @@ optional arguments:
                         Sampling method for candidate points. (default: THRESHOLD)
   -e {CANNY,ENTROPY,SOBEL}, --edge {CANNY,ENTROPY,SOBEL}
                         Pre-processing method to use. (default: SOBEL)
+  -b BLUR, --blur BLUR  Blur radius for approximate canny edge detector.
+                        (default: 2)
   -c {MEAN,CENTROID}, --color {MEAN,CENTROID}
                         Coloring method for rendering. (default: CENTROID)
   -p POINTS, --points POINTS
                         Points threshold. (default: 1024)
+  -v, --verbose         Set logger level as DEBUG (default: False)
 ```
 
 The `POISSON_DISK` option is extremely slow, however it can provide the best result.
