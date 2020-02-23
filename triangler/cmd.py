@@ -39,6 +39,14 @@ def main() -> None:
         choices=EdgeMethod._member_names_,
     )
     parser.add_argument(
+        "-b",
+        "--blur",
+        help="Blur radius for approximate canny edge detector.",
+        type=int,
+        default=2,
+        required=False,
+    )
+    parser.add_argument(
         "-c",
         "--color",
         help="Coloring method for rendering.",
@@ -66,8 +74,15 @@ def main() -> None:
 
     logging.info("Options:{}".format(args))
 
+    _c = ColorMethod[args.color.upper()]
+    _s = SampleMethod[args.sample.upper()]
+    _e = EdgeMethod[args.edge.upper()]
+
     if args.output and len(args.images) != len(args.output):
         raise IndexError
+
+    if _e is EdgeMethod.CANNY and args.blur < 0:
+        raise ValueError
 
     if len(args.images) > 1:
         # Use multiprocessing to process multiple files at the same time
@@ -78,9 +93,9 @@ def main() -> None:
                 args=(
                     image,
                     None if not args.output else args.output[index],
-                    ColorMethod[args.color.upper()],
-                    SampleMethod[args.sample.upper()],
-                    EdgeMethod[args.edge.upper()],
+                    _c,
+                    _s,
+                    _e,
                     args.points,
                 ),
             )
@@ -94,9 +109,9 @@ def main() -> None:
         spawn(
             args.images[0],
             None if not args.output else args.output[0],
-            ColorMethod[args.color.upper()],
-            SampleMethod[args.sample.upper()],
-            EdgeMethod[args.edge.upper()],
+            _c,
+            _s,
+            _e,
             args.points,
         )
 
