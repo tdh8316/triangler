@@ -70,7 +70,7 @@ def poisson_disk_sample(n, weights) -> np.ndarray:
         point = queue[idx]
 
         success = False
-        for it in range(16):
+        for _ in numba.prange(16):
             new_point = get_point_near(point, rads, max_rad)
 
             if in_bounds(new_point, width=width, height=height) and not has_neighbor(

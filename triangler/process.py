@@ -1,5 +1,3 @@
-import warnings
-
 import numba
 import numpy as np
 from imageio import imread
@@ -11,8 +9,6 @@ from skimage.transform import pyramid_reduce
 from triangler.color import ColorMethod
 from triangler.edges import EdgePoints, EdgeMethod
 from triangler.sampling import SampleMethod
-
-warnings.filterwarnings("ignore")
 
 
 @numba.jit(fastmath=True, parallel=True)
@@ -26,7 +22,7 @@ def process(
 ) -> np.array:
     img: ndarray = imread(path)
     sample_points: ndarray = EdgePoints(img, points, edging).get_edge_points(
-        blur, sampling
+        sampling=sampling, blur=blur,
     )
     triangulated: Delaunay = Delaunay(sample_points)
 

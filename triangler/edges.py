@@ -29,26 +29,29 @@ class EdgeMethod(Enum):
 
 class EdgePoints(object):
     def __init__(self, img: ndarray, n: int, edge: EdgeMethod):
-        self.img = img
-        self.width = self.img.shape[0]
-        self.height = self.img.shape[1]
+        self.width = img.shape[0]
+        self.height = img.shape[1]
+
+        self.edge_detector: EdgeDetectors = EdgeDetectors(img)
 
         self.num_of_points = n
-        if self.num_of_points > round(self.width * self.height * 0.5):
-            raise UserWarning("The number of points is too large")
 
         self.edge_method: EdgeMethod = edge
 
-    def get_edge_points(self, blur: int, sampling: SampleMethod) -> ndarray:
+    def get_edge_points(self, sampling: SampleMethod, blur: int = None) -> ndarray:
         """
         Retrieves the triangle points using Canny Edge Detection
         """
         if self.edge_method is EdgeMethod.CANNY:
-            edges = Canny.compute(self.img, blur)
+            if blur is None:
+                raise ValueError(
+                    "To use Canny Edge Detector, you must call this method with (SampleMethod, int)"
+                )
+            edges = self.edge_detector.canny(blur)
         elif self.edge_method is EdgeMethod.ENTROPY:
-            edges = Entropy.compute(self.img)
+            edges = self.edge_detector.entropy()
         elif self.edge_method is EdgeMethod.SOBEL:
-            edges = Sobel.compute(self.img)
+            edges = self.edge_detector.sobel()
         else:
             raise ValueError(
                 "Unexpected edge processing method: {}\n"
@@ -80,60 +83,13 @@ class EdgePoints(object):
         return np.append(sample_points, corners, axis=0)
 
 
-class Canny(object):
-    @staticmethod
+class EdgeDetectors(object):
+    def __init__(self, img: ndarray):
+        self.img: ndarray = img
+
     @numba.jit(parallel=True, fastmath=True)
-    def compute(img: ndarray, blur: int) -> ndarray:
-        # gray_img = rgb2gray(self.img)
-        # return cv2.Canny(gray_img, self.threshold, self.threshold*3)
-
-        threshold = 3 / 256
-        gray_img = rgb2gray(img)
-        blur_filt = np.ones(shape=(2 * blur + 1, 2 * blur + 1)) / ((2 * blur + 1) ** 2)
-        blurred = convolve2d(gray_img, blur_filt, mode="same", boundary="symm")
-        edge_filt = np.array([[1, 1, 1], [1, -8, 1], [1, 1, 1]])
-        edge = convolve2d(blurred, edge_filt, mode="same", boundary="symm")
-        for idx, val in np.ndenumerate(edge):
-            if val < threshold:
-                edge[idx] = 0
-        dense_filt = np.ones((3, 3))
-        dense = convolve2d(edge, dense_filt, mode="same", boundary="symm")
-        dense /= np.amax(dense)
-
-        return dense
-
-
-class Entropy(object):
-    @staticmethod
-    @numba.jit(fastmath=True)
-    def compute(img: ndarray, bal=0.1) -> ndarray:
-        dn_img = skimage.restoration.denoise_tv_bregman(img, 0.1)
-        img_gray = rgb2gray(dn_img)
-        img_lab = rgb2lab(dn_img)
-
-        entropy_img = gaussian(
-            img_as_float64(dilation(entropy(img_as_ubyte(img_gray), disk(5)), disk(5)))
-        )
-        edges_img = dilation(
-            np.mean(
-                np.array([scharr(img_lab[:, :, channel]) for channel in range(3)]),
-                axis=0,
-            ),
-            disk(3),
-        )
-
-        weight = (bal * entropy_img) + ((1 - bal) * edges_img)
-        weight /= np.mean(weight)
-        weight /= np.amax(weight)
-
-        return weight
-
-
-class Sobel(object):
-    @staticmethod
-    @numba.jit(parallel=True, fastmath=True)
-    def compute(img: ndarray) -> ndarray:
-        _img_as_float = img.astype(np.float)
+    def sobel(self) -> ndarray:
+        _img_as_float = self.img.astype(np.float)
         width, height, c = _img_as_float.shape
         _img = (
             0.2126 * _img_as_float[:, :, 0]
@@ -171,3 +127,46 @@ class Sobel(object):
         g *= 255.0 / np.max(g)
 
         return g
+
+    @numba.jit(fastmath=True)
+    def entropy(self, bal=0.1) -> ndarray:
+        dn_img = skimage.restoration.denoise_tv_bregman(self.img, 0.1)
+        img_gray = rgb2gray(dn_img)
+        img_lab = rgb2lab(dn_img)
+
+        entropy_img = gaussian(
+            img_as_float64(dilation(entropy(img_as_ubyte(img_gray), disk(5)), disk(5)))
+        )
+        edges_img = dilation(
+            np.mean(
+                np.array([scharr(img_lab[:, :, channel]) for channel in range(3)]),
+                axis=0,
+            ),
+            disk(3),
+        )
+
+        weight = (bal * entropy_img) + ((1 - bal) * edges_img)
+        weight /= np.mean(weight)
+        weight /= np.amax(weight)
+
+        return weight
+
+    @numba.jit(parallel=True, fastmath=True)
+    def canny(self, blur: int) -> ndarray:
+        # gray_img = rgb2gray(self.img)
+        # return cv2.Canny(gray_img, self.threshold, self.threshold*3)
+
+        threshold = 3 / 256
+        gray_img = rgb2gray(self.img)
+        blur_filt = np.ones(shape=(2 * blur + 1, 2 * blur + 1)) / ((2 * blur + 1) ** 2)
+        blurred = convolve2d(gray_img, blur_filt, mode="same", boundary="symm")
+        edge_filt = np.array([[1, 1, 1], [1, -8, 1], [1, 1, 1]])
+        edge = convolve2d(blurred, edge_filt, mode="same", boundary="symm")
+        for idx, val in np.ndenumerate(edge):
+            if val < threshold:
+                edge[idx] = 0
+        dense_filt = np.ones((3, 3))
+        dense = convolve2d(edge, dense_filt, mode="same", boundary="symm")
+        dense /= np.amax(dense)
+
+        return dense
