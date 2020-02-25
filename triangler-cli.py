@@ -1,14 +1,13 @@
-import timeit
+import multiprocessing
+from typing import List
 
-from imageio import imsave
-
-import triangler.process
+from triangler.cmd import spawn
 from triangler.color import ColorMethod
 from triangler.edges import EdgeMethod
 from triangler.sampling import SampleMethod
 
-op = input("IMAGE PATH:")
-sp = input("SAVE AS:")
+images: list = input("IMAGE PATH(Split by comma):").split(",")
+# sp = input("SAVE AS:")
 
 # noinspection PyProtectedMember
 e = EdgeMethod[input(f"EDGING{EdgeMethod._member_names_}[SOBEL]").upper() or "SOBEL"]
@@ -24,12 +23,21 @@ c = ColorMethod[
     input(f"COLORING{ColorMethod._member_names_}[CENTROID]:").upper() or "CENTROID"
 ]
 
-start = timeit.default_timer()
-imsave(
-    sp,
-    triangler.process.process(
-        path=op, coloring=c, sampling=s, blur=b, points=p, edging=e
-    ),
-)
+# Use multiprocessing to process multiple files at the same time
+calls: List[multiprocessing.Process] = []
+for index, image in enumerate(images):
+    image_tri: str = (
+        str().join(image.split(".")[:-1]) + "_tri." + image.split(".")[-1]
+    )
+    _process = multiprocessing.Process(
+        target=spawn, args=(image, image_tri, c, s, e, p),
+    )
+    calls.append(_process)
+    _process.daemon = True
+    _process.start()
+    print("{}. Start process {} to {}".format(index, image, image_tri))
 
-print("Completed in {}s".format(timeit.default_timer() - start))
+for func in calls:
+    func.join()
+
+print("All done!")
