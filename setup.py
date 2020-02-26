@@ -15,7 +15,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=["scikit-image", "numpy", "scipy", "numba", "imageio"],
-    python_requires=">=3.6",
+    python_requires="==3.6",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

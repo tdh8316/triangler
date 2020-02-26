@@ -1,4 +1,4 @@
-[![Python](https://img.shields.io/badge/Python-%3E%3D%203.6-blue.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/Python-%203.6-blue.svg)](https://www.python.org/downloads/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Stargazers](https://img.shields.io/github/stars/tdh8316/triangler.svg)](https://github.com/tdh8316/triangler/stargazers)
@@ -9,18 +9,30 @@
 
 ![sample](./docs/m_tri2.jpg)
 
+# Pre-requirements
+I strongly recommend to use virtual environment such as PyEnv or Anaconda.
+If you don't have Anaconda, [download Anaconda](https://www.anaconda.com/distribution/#download-section)
+
+Follow manual below to create python virtual environment for triangler with Anaconda.
+```cmd
+$ conda create -n triangler python=3.6
+$ activate triangler
+(triangler)$ git clone https://github.com/tdh8316/triangler.git
+(triangler)$ python -m pip install -r requirements.txt
+```
+
 # Usage
 Currently, the interface for end-users is only Command-Line.
 ```cmd
-$ git clone https://github.com/tdh8316/triangler.git
-$ python -m pip install -r requirements.txt
-$ python triangler-cli.py
+$ activate triangler
+(triangler)$ python triangler-cli.py
 ```
 ## Setup
 ```cmd
-$ git clone https://github.com/tdh8316/triangler.git
-$ python -m pip install setup.py
-$ python -m triangler -h
+$ activate triangler
+(triangler)$ git clone https://github.com/tdh8316/triangler.git
+(triangler)$ python -m pip install setup.py
+(triangler)$ python -m triangler -h
 usage: __main__.py [-h] [-o OUTPUT [OUTPUT ...]] [-s {POISSON_DISK,THRESHOLD}]
                    [-e {CANNY,ENTROPY,SOBEL}] [-b BLUR] [-c {MEAN,CENTROID}]
                    [-p POINTS] [-v]
