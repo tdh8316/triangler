@@ -51,4 +51,5 @@ def process(
             )
         )
 
-    return pyramid_reduce(res, multichannel=True)
+    # return pyramid_reduce(res, multichannel=True)
+    return res

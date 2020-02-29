@@ -30,7 +30,7 @@ def has_neighbor(
 
 
 @numba.jit(fastmath=True, parallel=True)
-def poisson_disk_sample(n, weights) -> np.ndarray:
+def poisson_disk_sample(n: int, weights: np.array) -> np.ndarray:
     """
     Performs weighted poisson disk sampling over a region.
     Algorithm based on
