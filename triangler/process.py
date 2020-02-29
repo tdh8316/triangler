@@ -19,6 +19,7 @@ def process(
     edging: EdgeMethod,
     points: int,
     blur: int = 2,
+    reduce: bool = True,
 ) -> np.array:
     img: ndarray = imread(path)
     sample_points: ndarray = EdgePoints(img, points, edging).get_edge_points(
@@ -51,4 +52,4 @@ def process(
             )
         )
 
-    return pyramid_reduce(res, multichannel=True)
+    return pyramid_reduce(res, multichannel=True) if reduce else res

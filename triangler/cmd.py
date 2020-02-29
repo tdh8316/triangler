@@ -57,6 +57,13 @@ def main() -> None:
     parser.add_argument(
         "-p", "--points", help="Points threshold.", type=int, default=1024
     )
+    parser.add_argument(
+        "-l",
+        "--reduce",
+        help="Apply pyramid reduce to result image",
+        type=bool,
+        default=True,
+    )
 
     parser.add_argument(
         "-v", "--verbose", help="Set logger level as DEBUG", action="store_true"
@@ -97,6 +104,7 @@ def main() -> None:
                     _s,
                     _e,
                     args.points,
+                    args.reduce,
                 ),
             )
             calls.append(_process)
@@ -113,6 +121,7 @@ def main() -> None:
             _s,
             _e,
             args.points,
+            args.reduce,
         )
 
 
@@ -123,11 +132,12 @@ def spawn(
     s: SampleMethod,
     e: EdgeMethod,
     p: int,
+    r: bool,
 ) -> None:
     logging.info("Spawned process for {}".format(img_path))
     start_time = time.time()
     res: ndarray = process(
-        path=img_path, coloring=c, sampling=s, edging=e, points=p,
+        path=img_path, coloring=c, sampling=s, edging=e, points=p, reduce=r,
     )
 
     imsave(
