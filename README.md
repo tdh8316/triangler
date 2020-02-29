@@ -35,7 +35,7 @@ $ activate triangler
 (triangler)$ python -m triangler -h
 usage: __main__.py [-h] [-o OUTPUT [OUTPUT ...]] [-s {POISSON_DISK,THRESHOLD}]
                    [-e {CANNY,ENTROPY,SOBEL}] [-b BLUR] [-c {MEAN,CENTROID}]
-                   [-p POINTS] [-v]
+                   [-p POINTS] [-l REDUCE] [-v]
                    images [images ...]
 
 positional arguments:
@@ -55,6 +55,8 @@ optional arguments:
                         Coloring method for rendering. (default: CENTROID)
   -p POINTS, --points POINTS
                         Points threshold. (default: 1024)
+  -l REDUCE, --reduce REDUCE
+                        Apply pyramid reduce to result image (default: True)
   -v, --verbose         Set logger level as DEBUG (default: False)
 ```
 
