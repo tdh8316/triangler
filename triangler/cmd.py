@@ -61,8 +61,7 @@ def main() -> None:
         "-l",
         "--reduce",
         help="Apply pyramid reduce to result image",
-        type=bool,
-        default=True,
+        action="store_true",
     )
 
     parser.add_argument(
