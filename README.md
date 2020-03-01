@@ -55,8 +55,7 @@ optional arguments:
                         Coloring method for rendering. (default: CENTROID)
   -p POINTS, --points POINTS
                         Points threshold. (default: 1024)
-  -l REDUCE, --reduce REDUCE
-                        Apply pyramid reduce to result image (default: True)
+  -l, --reduce          Apply pyramid reduce to result image (default: False)
   -v, --verbose         Set logger level as DEBUG (default: False)
 ```
 
