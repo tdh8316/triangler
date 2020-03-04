@@ -3,7 +3,7 @@ import multiprocessing
 import sys
 import time
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
-from typing import List
+from typing import List, Union
 
 from numpy.core.multiarray import ndarray
 from skimage.io import imsave
@@ -84,7 +84,7 @@ def main() -> None:
     _s = SampleMethod[args.sample.upper()]
     _e = EdgeMethod[args.edge.upper()]
 
-    if args.output and len(args.images) != len(args.output):
+    if args.outputs and len(args.images) != len(args.outputs):
         raise IndexError
 
     if _e is EdgeMethod.CANNY and args.blur < 0:
@@ -98,7 +98,7 @@ def main() -> None:
                 target=spawn,
                 args=(
                     image,
-                    None if not args.output else args.output[index],
+                    None if not args.outputs else args.outputs[index],
                     _c,
                     _s,
                     _e,
@@ -115,7 +115,7 @@ def main() -> None:
     else:
         spawn(
             args.images[0],
-            None if not args.output else args.output[0],
+            None if not args.outputs else args.outputs[0],
             _c,
             _s,
             _e,
@@ -126,7 +126,7 @@ def main() -> None:
 
 def spawn(
     img_path: str,
-    out_path: str or None,
+    out_path: Union[str, None],
     c: ColorMethod,
     s: SampleMethod,
     e: EdgeMethod,
