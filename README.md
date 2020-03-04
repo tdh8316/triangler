@@ -10,28 +10,30 @@
 ![sample](./docs/m_tri2.jpg)
 
 # Pre-requirements
-I strongly recommend to use virtual environment such as PyEnv or Anaconda.
-If you don't have Anaconda, [download Anaconda](https://www.anaconda.com/distribution/#download-section)
+I strongly recommend to use virtual environment such as `Anaconda`.
+You can [download `Anaconda` here](https://www.anaconda.com/distribution/#download-section).
+
+>Note: I only tested `triangler` on `Python 3.6`, `Windows 10`.
 
 Follow manual below to create python virtual environment for triangler with Anaconda.
 ```cmd
 $ conda create -n triangler python=3.6
 $ activate triangler
 (triangler)$ git clone https://github.com/tdh8316/triangler.git
+(triangler)$ cd triangler
 (triangler)$ python -m pip install -r requirements.txt
 ```
 
 # Usage
 Currently, the interface for end-users is only Command-Line.
 ```cmd
-$ activate triangler
 (triangler)$ python triangler-cli.py
 ```
-## Setup
+# Setup
 ```cmd
-$ activate triangler
 (triangler)$ git clone https://github.com/tdh8316/triangler.git
-(triangler)$ python -m pip install setup.py
+(triangler)$ cd triangler
+(triangler)$ python setup.py install
 (triangler)$ python -m triangler -h
 usage: __main__.py [-h] [-o OUTPUT [OUTPUT ...]] [-s {POISSON_DISK,THRESHOLD}]
                    [-e {CANNY,ENTROPY,SOBEL}] [-b BLUR] [-c {MEAN,CENTROID}]
@@ -59,7 +61,7 @@ optional arguments:
   -v, --verbose         Set logger level as DEBUG (default: False)
 ```
 
-The `POISSON_DISK` option is extremely slow, however it can provide the best result.
+The `POISSON_DISK` option is extremely slow, while it can provide the best result.
 
 It takes a minimum of 5 seconds to a maximum of 3 minutes.
 
