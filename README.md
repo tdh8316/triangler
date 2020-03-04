@@ -84,3 +84,8 @@ It takes a minimum of 5 seconds to a maximum of 3 minutes.
 
 # License
 Licensed under the **MIT** License.
+
+Copyright 2020 `Donghyeok Tak`
+
+## Special thanks
+Some algorithms, including the `Poisson disk sampling`, are based on [pmaldonado/PyTri](https://github.com/pmaldonado/PyTri).
