@@ -98,7 +98,7 @@ def main() -> None:
                 target=spawn,
                 args=(
                     image,
-                    None if not args.outputs else args.outputs[index],
+                    None if not hasattr(args, "outputs") else args.outputs[index],
                     _c,
                     _s,
                     _e,
@@ -115,7 +115,7 @@ def main() -> None:
     else:
         spawn(
             args.images[0],
-            None if not args.outputs else args.outputs[0],
+            None if not hasattr(args, "outputs") else args.outputs[0],
             _c,
             _s,
             _e,
