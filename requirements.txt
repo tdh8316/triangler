@@ -1,3 +1,4 @@
+tqdm
 numpy==1.17.2
 numba
 scipy==1.4.1
