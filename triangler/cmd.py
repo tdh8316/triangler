@@ -8,6 +8,7 @@ from typing import List, Union
 from numpy.core.multiarray import ndarray
 from skimage.io import imsave
 
+from triangler import progress
 from triangler.color import ColorMethod
 from triangler.edges import EdgeMethod
 from triangler.process import process
@@ -134,6 +135,7 @@ def spawn(
     r: bool,
 ) -> None:
     logging.info("Spawned process for {}".format(img_path))
+    progress.pbar.update()
     start_time = time.time()
     res: ndarray = process(
         path=img_path, coloring=c, sampling=s, edging=e, points=p, reduce=r,
@@ -145,3 +147,5 @@ def spawn(
         res,
     )
     logging.info("Finished {} in {}s".format(img_path, time.time() - start_time))
+    progress.pbar.update()
+    progress.pbar.close()

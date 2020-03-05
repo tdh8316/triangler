@@ -12,6 +12,7 @@ from skimage.filters import scharr, gaussian
 from skimage.filters.rank import entropy
 from skimage.morphology import disk, dilation
 
+from triangler import progress
 from triangler.sampling import (
     SampleMethod,
     poisson_disk_sample,
@@ -59,6 +60,7 @@ class EdgePoints(object):
                     self.edge_method, SampleMethod.__name__, SampleMethod.__members__
                 )
             )
+        progress.pbar.update(19)
 
         if sampling is SampleMethod.POISSON_DISK:
             sample_points = poisson_disk_sample(self.num_of_points, edges)
@@ -71,6 +73,7 @@ class EdgePoints(object):
                     sampling, SampleMethod.__name__, SampleMethod.__members__
                 )
             )
+        progress.pbar.update(50)
 
         corners = np.array(
             [
