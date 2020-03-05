@@ -84,7 +84,7 @@ def main() -> None:
     _s = SampleMethod[args.sample.upper()]
     _e = EdgeMethod[args.edge.upper()]
 
-    if args.outputs and len(args.images) != len(args.outputs):
+    if hasattr(args, "outputs") and len(args.images) != len(args.outputs):
         raise IndexError
 
     if _e is EdgeMethod.CANNY and args.blur < 0:
