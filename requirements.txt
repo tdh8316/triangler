@@ -1,5 +1,5 @@
 numpy==1.17.2
 numba
-scipy
+scipy==1.4.1
 scikit-image
 imageio
