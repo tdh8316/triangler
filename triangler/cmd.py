@@ -104,6 +104,7 @@ def main() -> None:
                     _s,
                     _e,
                     args.points,
+                    args.blur,
                     args.reduce,
                 ),
             )
@@ -121,6 +122,7 @@ def main() -> None:
             _s,
             _e,
             args.points,
+            args.blur,
             args.reduce,
         )
 
@@ -132,13 +134,14 @@ def spawn(
     s: SampleMethod,
     e: EdgeMethod,
     p: int,
+    b: int,
     r: bool,
 ) -> None:
     logging.info("Spawned process for {}".format(img_path))
     progress.pbar.update()
     start_time = time.time()
     res: ndarray = process(
-        path=img_path, coloring=c, sampling=s, edging=e, points=p, reduce=r,
+        path=img_path, coloring=c, sampling=s, edging=e, points=p, blur=b, reduce=r,
     )
 
     imsave(
