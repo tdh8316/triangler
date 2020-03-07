@@ -6,7 +6,6 @@ from scipy.spatial import Delaunay
 from skimage.draw import polygon
 from skimage.transform import pyramid_reduce
 
-from triangler import progress
 from triangler.color import ColorMethod
 from triangler.edges import EdgePoints, EdgeMethod
 from triangler.sampling import SampleMethod
@@ -19,7 +18,7 @@ def process(
     sampling: SampleMethod,
     edging: EdgeMethod,
     points: int,
-    blur: int = 2,
+    blur: int,
     reduce: bool = True,
 ) -> np.array:
     img: ndarray = imread(path)
@@ -30,8 +29,6 @@ def process(
 
     # noinspection PyUnresolvedReferences
     triangles = sample_points[triangulated.simplices]
-
-    progress.pbar.update(20)
 
     res = np.empty(
         shape=(2 * img.shape[0], 2 * img.shape[1], img.shape[2]), dtype=np.uint8
@@ -54,7 +51,5 @@ def process(
                 coloring, ColorMethod.__name__, ColorMethod.__members__
             )
         )
-
-    progress.pbar.update(9)
 
     return pyramid_reduce(res, multichannel=True) if reduce else res
