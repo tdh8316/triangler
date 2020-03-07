@@ -1,4 +1,4 @@
-[![Python](https://img.shields.io/badge/Python-%203.6-blue.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/Python-%20>=3.6-blue.svg)](https://www.python.org/downloads/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Stargazers](https://img.shields.io/github/stars/tdh8316/triangler.svg)](https://github.com/tdh8316/triangler/stargazers)
@@ -13,11 +13,11 @@
 I strongly recommend to use virtual environment such as `Anaconda`.
 You can [download `Anaconda` here](https://www.anaconda.com/distribution/#download-section).
 
->Note: I only tested `triangler` on `Python 3.6`, `Windows 10`.
+>Note: I only tested `triangler` on `Windows 10`.
 
 Follow manual below to create python virtual environment for triangler with Anaconda.
 ```cmd
-$ conda create -n triangler python=3.6
+$ conda create -n triangler python=3.8
 $ activate triangler
 (triangler)$ git clone https://github.com/tdh8316/triangler.git
 (triangler)$ cd triangler
