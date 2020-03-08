@@ -9,32 +9,35 @@
 
 ![sample](./docs/m_tri2.jpg)
 
-# Pre-requirements
+# Installation
+
+## Download Windows Binary
+You can download the binary for `Windows`.
+Note that the Windows binary is slower than running from source.
+ - [Download Page](https://github.com/tdh8316/triangler/releases)
+
+See [#usage](https://github.com/tdh8316/triangler#usage) section to know how to use.
+
+If you would like to know how to use it with Python, follow the next steps.
+
+## Running from source
+First of all, You need [`Python 3`](https://www.python.org/).
+
 I strongly recommend to use virtual environment such as `Anaconda`.
 You can [download `Anaconda` here](https://www.anaconda.com/distribution/#download-section).
 
->Note: I only tested `triangler` on `Windows 10`.
-
-Follow manual below to create python virtual environment for triangler with Anaconda.
+Follow manual below to create python virtual environment for `Triangler` with `Anaconda`.
 ```cmd
 $ conda create -n triangler python=3.8
 $ activate triangler
 (triangler)$ git clone https://github.com/tdh8316/triangler.git
 (triangler)$ cd triangler
-(triangler)$ python -m pip install -r requirements.txt
+(triangler)$ python setup.py install
 ```
 
 # Usage
-Currently, the interface for end-users is only Command-Line.
 ```cmd
-(triangler)$ python triangler-cli.py
-```
-# Setup
-```cmd
-(triangler)$ git clone https://github.com/tdh8316/triangler.git
-(triangler)$ cd triangler
-(triangler)$ python setup.py install
-(triangler)$ python -m triangler -h
+(triangler)$ triangler -h
 usage: __main__.py [-h] [-o OUTPUT [OUTPUT ...]] [-s {POISSON_DISK,THRESHOLD}]
                    [-e {CANNY,ENTROPY,SOBEL}] [-b BLUR] [-c {MEAN,CENTROID}]
                    [-p POINTS] [-l REDUCE] [-v]
@@ -63,10 +66,7 @@ optional arguments:
 
 The `POISSON_DISK` option is extremely slow, while it can provide the best result.
 
-It takes a minimum of 5 seconds to a maximum of 3 minutes.
-
-## Example command
-`$ python -m triangler image.jpg -o output.jpg -s poisson_disk`
+It takes a minimum of 5 seconds (1000 points) to a maximum of 3 minutes (50000 points and poisson disk sampling).
 
 # Sample
 |Original|5000 Points|
