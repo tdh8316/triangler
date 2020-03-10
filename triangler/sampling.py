@@ -53,7 +53,9 @@ def poisson_disk_sample(n: int, weights: np.array) -> np.ndarray:
     height: int = weights.shape[1]
 
     max_rad: int = int(min(width, height) / 4)
-    avg_rad = np.sqrt((height * width) / ((1 / np.log10(width * height) / 2) * n * np.pi))
+    avg_rad = np.sqrt(
+        (height * width) / ((1 / np.log10(width * height) / 2) * n * np.pi)
+    )
 
     weights /= np.mean(weights)
     rads = np.clip(avg_rad / (weights + 0.01), avg_rad / 4, max_rad)
