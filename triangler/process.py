@@ -19,7 +19,7 @@ def process(
     edging: EdgeMethod,
     points: int,
     blur: int,
-    reduce: bool = True,
+    reduce: bool,
 ) -> np.array:
     img: ndarray = imread(path)
     sample_points: ndarray = EdgePoints(img, points, edging).get_edge_points(
