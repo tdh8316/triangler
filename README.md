@@ -68,6 +68,12 @@ The `POISSON_DISK` option is extremely slow, while it can provide the best resul
 
 It takes a minimum of 5 seconds (1000 points) to a maximum of 3 minutes (50000 points and poisson disk sampling).
 
+## Interfaces
+Currently, `Triangler` is a command-line tool.
+>Note: `triangler-cli.py is deprecated.`
+
+I'll make it usable as a library.
+
 # Sample
 |Original|5000 Points|
 |:------:|:---------:|
