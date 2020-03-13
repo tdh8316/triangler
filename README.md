@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9395a82b51cd4919af943df87e41d4a5)](https://app.codacy.com/manual/tdh8316/triangler?utm_source=github.com&utm_medium=referral&utm_content=tdh8316/triangler&utm_campaign=Badge_Grade_Settings)
 [![Python](https://img.shields.io/badge/Python-%20>=3.6-blue.svg)](https://www.python.org/downloads/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
