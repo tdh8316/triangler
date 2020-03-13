@@ -20,14 +20,14 @@ from triangler.sampling import (
 
 
 class EdgeMethod(Enum):
-    __dict__ = ("CANNY", "ENTROPY", "SOBEL")
-
     CANNY = enum.auto()
     ENTROPY = enum.auto()
     SOBEL = enum.auto()
 
 
 class EdgePoints(object):
+    __slots__ = ["width", "height", "edge_detector", "num_of_points", "edge_method"]
+
     def __init__(self, img: ndarray, n: int, edge: EdgeMethod):
         self.width = img.shape[0]
         self.height = img.shape[1]
@@ -84,6 +84,8 @@ class EdgePoints(object):
 
 
 class EdgeDetectors(object):
+    __slots__ = ["img"]
+
     def __init__(self, img: ndarray):
         self.img: ndarray = img
 
