@@ -40,7 +40,7 @@ class EdgePoints(object):
 
     def get_edge_points(self, sampling: SampleMethod, blur: int = None) -> ndarray:
         """
-        Retrieves the triangle points using Canny Edge Detection
+        Retrieves the triangle points using Sobel | Canny | Threshold Edge Detection
         """
         if self.edge_method is EdgeMethod.CANNY:
             if blur is None:
