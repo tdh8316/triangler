@@ -1,9 +1,6 @@
 import enum
-from enum import Enum
 
 
-class ColorMethod(Enum):
-    __dict__ = ("MEAN", "CENTROID")
-
+class ColorMethod(enum.Enum):
     MEAN = enum.auto()
     CENTROID = enum.auto()

@@ -11,8 +11,6 @@ import scipy.spatial
 
 
 class SampleMethod(enum.Enum):
-    __dict__ = ("POISSON_DISK", "THRESHOLD")
-
     POISSON_DISK = enum.auto()
     THRESHOLD = enum.auto()
 
