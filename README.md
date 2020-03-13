@@ -66,7 +66,7 @@ optional arguments:
 
 The `POISSON_DISK` option is extremely slow, while it can provide the best result.
 
-It takes a minimum of 5 seconds (1000 points) to a maximum of 3 minutes (50000 points and poisson disk sampling).
+It takes a minimum of 5 seconds (1000 points and threshold sampling) to a maximum of 3 minutes (50000 points and poisson disk sampling).
 
 ## Interfaces
 Currently, `Triangler` is a command-line tool.
