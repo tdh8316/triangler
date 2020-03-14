@@ -1,7 +1,12 @@
-import warnings
-from time import time
+import warnings as _warnings
+from time import time as _time
 
-import numpy as np
+import numpy as _np
 
-np.random.seed(int(time()))
-warnings.filterwarnings("ignore")
+from triangler.color import ColorMethod
+from triangler.edges import EdgeMethod
+from triangler.mod import Triangler
+from triangler.sampling import SampleMethod
+
+_np.random.seed(int(_time()))
+_warnings.filterwarnings("ignore")
