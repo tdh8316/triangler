@@ -68,11 +68,24 @@ The `POISSON_DISK` option is extremely slow, while it can provide the best resul
 
 It takes a minimum of 5 seconds (1000 points and threshold sampling) to a maximum of 3 minutes (50000 points and poisson disk sampling).
 
-## Interfaces
-Currently, `Triangler` is a command-line tool.
->Note: `triangler-cli.py is deprecated.`
+## API
+See example:
+```python
+from skimage.io import imread
+import triangler
+import matplotlib.pyplot as plt
 
-I'll make it usable as a library.
+t = triangler.Triangler(sample_method=triangler.SampleMethod.POISSON_DISK)
+
+img = imread("image.jpg")
+img_tri = t.convert(img)
+
+_, axes = plt.subplots(1, 2, figsize=(16, 16))
+axes[0].imshow(img)
+axes[1].imshow(img_tri)
+plt.show()
+```
+
 
 # Sample
 |Original|5000 Points|
