@@ -1,3 +1,5 @@
+![Works on my machine](https://img.shields.io/badge/works-on%20my%20machine-green)
+
 [![Python](https://img.shields.io/badge/Python-%20>=3.6-blue.svg)](https://www.python.org/downloads/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
