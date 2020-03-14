@@ -4,9 +4,8 @@ import sys
 import time
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from typing import List, Union
-
 from numpy.core.multiarray import ndarray
-from skimage.io import imsave
+from skimage.io import imsave, imread
 
 from triangler.color import ColorMethod
 from triangler.edges import EdgeMethod
@@ -139,7 +138,13 @@ def spawn(
     logging.info("Spawned process for {}".format(img_path))
     start_time = time.time()
     res: ndarray = process(
-        path=img_path, coloring=c, sampling=s, edging=e, points=p, blur=b, reduce=r,
+        img=imread(img_path),
+        coloring=c,
+        sampling=s,
+        edging=e,
+        points=p,
+        blur=b,
+        reduce=r,
     )
 
     imsave(

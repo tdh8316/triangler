@@ -1,6 +1,5 @@
 import numba
 import numpy as np
-from imageio import imread
 from numpy.core.multiarray import ndarray
 from scipy.spatial import Delaunay
 from skimage.draw import polygon
@@ -13,7 +12,7 @@ from triangler.sampling import SampleMethod
 
 @numba.jit(fastmath=True, parallel=True)
 def process(
-    path: str,
+    img: ndarray,
     coloring: ColorMethod,
     sampling: SampleMethod,
     edging: EdgeMethod,
@@ -21,7 +20,6 @@ def process(
     blur: int,
     reduce: bool,
 ) -> np.array:
-    img: ndarray = imread(path)
     sample_points: ndarray = EdgePoints(img, points, edging).get_edge_points(
         sampling=sampling, blur=blur,
     )
