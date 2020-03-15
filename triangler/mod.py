@@ -65,7 +65,7 @@ class Triangler(object):
             output
             or (
                 "Triangler_{}.jpg".format(int(time.time()))
-                if type(source) is str
+                if isinstance(source, str)
                 else (
                     str().join(source.split(".")[:-1]) + "_tri." + source.split(".")[-1]
                 )
