@@ -14,7 +14,14 @@ setup(
     description="Convert images to Low-Poly art using Delaunay triangulation.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    install_requires=["scikit-image", "numpy==1.17.2", "scipy==1.4.1", "numba", "imageio"],
+    install_requires=[
+        "matplotlib"
+        "scikit-image",
+        "numpy==1.17.2",
+        "scipy==1.4.1",
+        "numba",
+        "imageio",
+    ],
     python_requires=">=3.6",
     classifiers=[
         "Programming Language :: Python :: 3",
