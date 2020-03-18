@@ -82,7 +82,7 @@ def main() -> None:
     _e = EdgeMethod[args.edge.upper()]
 
     if _e is EdgeMethod.CANNY and args.blur < 0:
-        raise ValueError
+        raise ValueError("Blur value must be positive integer.")
 
     # TODO: Recognize wildcard
 
@@ -109,5 +109,5 @@ def main() -> None:
         _processes.append(_process)
         _process.start()
 
-    for func in _processes:
-        func.join()
+    for process in _processes:
+        process.join()
