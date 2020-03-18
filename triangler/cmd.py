@@ -1,15 +1,12 @@
 import logging
 import multiprocessing
 import sys
-import time
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
-from typing import List, Union
-from numpy.core.multiarray import ndarray
-from skimage.io import imsave, imread
+from typing import List
 
+from triangler import Triangler
 from triangler.color import ColorMethod
 from triangler.edges import EdgeMethod
-from triangler.process import process
 from triangler.sampling import SampleMethod
 
 
@@ -79,77 +76,38 @@ def main() -> None:
 
     logging.info("Options:{}".format(args))
 
-    _c = ColorMethod[args.color.upper()]
-    _s = SampleMethod[args.sample.upper()]
-    _e = EdgeMethod[args.edge.upper()]
-
     if hasattr(args, "outputs") and len(args.images) != len(args.outputs):
         raise IndexError
+
+    _e = EdgeMethod[args.edge.upper()]
 
     if _e is EdgeMethod.CANNY and args.blur < 0:
         raise ValueError
 
-    if len(args.images) > 1:
-        # Use multiprocessing to process multiple files at the same time
-        calls: List[multiprocessing.Process] = []
-        for index, image in enumerate(args.images):
-            _process = multiprocessing.Process(
-                target=spawn,
-                args=(
-                    image,
-                    None if not hasattr(args, "outputs") else args.outputs[index],
-                    _c,
-                    _s,
-                    _e,
-                    args.points,
-                    args.blur,
-                    args.reduce,
-                ),
-            )
-            calls.append(_process)
-            _process.daemon = True
-            _process.start()
+    # TODO: Recognize wildcard
 
-        for func in calls:
-            func.join()
-    else:
-        spawn(
-            args.images[0],
-            None if not hasattr(args, "outputs") else args.outputs[0],
-            _c,
-            _s,
-            _e,
-            args.points,
-            args.blur,
-            args.reduce,
+    t = Triangler(
+        edge_method=_e,
+        color_method=ColorMethod[args.color.upper()],
+        sample_method=SampleMethod[args.sample.upper()],
+        points=args.points,
+        blur=args.blur,
+        pyramid_reduce=args.reduce,
+    )
+
+    # Use multiprocessing to process multiple files at the same time
+    _processes: List[multiprocessing.Process] = []
+    for index, image in enumerate(args.images):
+        _process = multiprocessing.Process(
+            target=t.save,
+            args=(
+                image,
+                None if not hasattr(args, "outputs") else args.outputs[index],
+            ),
         )
+        _process.daemon = True
+        _processes.append(_process)
+        _process.start()
 
-
-def spawn(
-    img_path: str,
-    out_path: Union[str, None],
-    c: ColorMethod,
-    s: SampleMethod,
-    e: EdgeMethod,
-    p: int,
-    b: int,
-    r: bool,
-) -> None:
-    logging.info("Spawned process for {}".format(img_path))
-    start_time = time.time()
-    res: ndarray = process(
-        img=imread(img_path),
-        coloring=c,
-        sampling=s,
-        edging=e,
-        points=p,
-        blur=b,
-        reduce=r,
-    )
-
-    imsave(
-        out_path
-        or (str().join(img_path.split(".")[:-1]) + "_tri." + img_path.split(".")[-1]),
-        res,
-    )
-    logging.info("Finished {} in {}s".format(img_path, time.time() - start_time))
+    for func in _processes:
+        func.join()
