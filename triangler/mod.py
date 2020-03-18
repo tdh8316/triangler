@@ -1,5 +1,4 @@
 import time
-from pathlib import Path
 from typing import Union
 
 from numpy.core.multiarray import ndarray
@@ -40,8 +39,6 @@ class Triangler(object):
             raise TypeError("Supported type: str, ndarray but {}".format(_type))
 
         if _type is str:
-            if not Path(source).exists():
-                raise FileNotFoundError
             source = imread(source)
 
         return process(
