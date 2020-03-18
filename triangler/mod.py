@@ -36,12 +36,12 @@ class Triangler(object):
         :return:
         """
         _type = type(source)
-        assert _type in (str, ndarray), "Supported type: str, ndarray but {}".format(
-            _type
-        )
+        if _type not in (str, ndarray):
+            raise TypeError("Supported type: str, ndarray but {}".format(_type))
 
         if _type is str:
-            assert Path(source).exists()
+            if not Path(source).exists():
+                raise FileNotFoundError
             source = imread(source)
 
         return process(
@@ -54,7 +54,7 @@ class Triangler(object):
             reduce=self.pyramid_reduce,
         )
 
-    def save(self, source: Union[str, ndarray], output: str) -> None:
+    def save(self, source: Union[str, ndarray], output: str = None) -> None:
         """
         Convert and save the result as image
         :param source:
@@ -65,7 +65,7 @@ class Triangler(object):
             output
             or (
                 "Triangler_{}.jpg".format(int(time.time()))
-                if isinstance(source, str)
+                if not isinstance(source, str)
                 else (
                     str().join(source.split(".")[:-1]) + "_tri." + source.split(".")[-1]
                 )
