@@ -9,7 +9,7 @@ images: list = [x.strip() for x in input("IMAGE PATH(Split by comma):").split(",
 
 # noinspection PyProtectedMember
 e: str = input(f"EDGING{EdgeMethod._member_names_}[SOBEL]").upper() or "SOBEL"
-b: str = input("BLUR[2]:") or '2' if e == EdgeMethod.CANNY.name else '2'
+b: str = input("BLUR[2]:") or "2" if e == EdgeMethod.CANNY.name else "2"
 # noinspection PyProtectedMember
 s: str = input(
     f"SAMPLING{SampleMethod._member_names_}[POISSON_DISK]:"
