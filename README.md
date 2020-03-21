@@ -9,7 +9,7 @@
 # Overview
 `Triangler` is a tool to generate Low-Polygon image using [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
 
-![sample](./docs/m_tri2.jpg)
+![sample](./docs/m_tri3.jpg)
 
 # Installation
 
@@ -17,13 +17,13 @@
 You can download the binary for `Windows`.
 Note that the Windows binary is slower than running from source.
  - [Download Page](https://github.com/tdh8316/triangler/releases)
+ 
+>Note: The Binary Release is often old and needs to rebuild.
 
-See [#usage](https://github.com/tdh8316/triangler#usage) section to know how to use.
-
-If you would like to know how to use it with Python, follow the next steps.
+See [#usage](https://github.com/tdh8316/triangler#usage) section for usage.
 
 ## Running from source
-First of all, You need [`Python 3`](https://www.python.org/).
+You need [`Python 3.6`](https://www.python.org/) or higher.
 
 I strongly recommend to use virtual environment such as `Anaconda`.
 You can [download `Anaconda` here](https://www.anaconda.com/distribution/#download-section).
@@ -66,7 +66,7 @@ optional arguments:
   -v, --verbose         Set logger level as DEBUG (default: False)
 ```
 
-The `POISSON_DISK` option is extremely slow, while it can provide the best result.
+The sampling option; `POISSON_DISK` is extremely slow, while it can provide the best result.
 
 It takes a minimum of 5 seconds (1000 points and threshold sampling) to a maximum of 3 minutes (50000 points and poisson disk sampling).
 
