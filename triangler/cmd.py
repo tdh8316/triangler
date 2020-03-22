@@ -77,7 +77,7 @@ def main() -> None:
     logging.info("Options:{}".format(args))
 
     if hasattr(args, "outputs") and len(args.images) != len(args.outputs):
-        raise IndexError
+        raise IndexError("The number of input images and output targets are not matched.")
 
     _e = EdgeMethod[args.edge.upper()]
 
