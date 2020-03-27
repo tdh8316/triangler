@@ -77,7 +77,9 @@ def main() -> None:
     logging.info("Options:{}".format(args))
 
     if hasattr(args, "outputs") and len(args.images) != len(args.outputs):
-        raise IndexError("The number of input images and output targets are not matched.")
+        raise IndexError(
+            "The number of input images and output targets are not matched."
+        )
 
     _e = EdgeMethod[args.edge.upper()]
 
@@ -104,9 +106,7 @@ def main() -> None:
                 image,
                 None if not hasattr(args, "outputs") else args.outputs[index],
             ),
-            kwargs={
-                "complete_message":1
-            }
+            kwargs={"complete_message": 1},
         )
         _process.daemon = True
         _processes.append(_process)
