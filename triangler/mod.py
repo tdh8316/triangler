@@ -51,7 +51,7 @@ class Triangler(object):
             reduce=self.pyramid_reduce,
         )
 
-    def save(self, source: Union[str, ndarray], output: str = None) -> None:
+    def save(self, source: Union[str, ndarray], output: str = None, **kwargs) -> None:
         """
         Convert and save the result as image
         :param source:
@@ -69,3 +69,6 @@ class Triangler(object):
             ),
             self.convert(source),
         )
+
+        if kwargs["complete_message"]:
+            print("{} [Done].".format(source))
