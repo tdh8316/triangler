@@ -1,5 +1,6 @@
 import enum
 from enum import Enum
+from typing import Union
 
 import numba
 import numpy as np
@@ -92,7 +93,7 @@ class EdgeDetectors(object):
     @numba.jit(parallel=True, fastmath=True)
     def sobel(self) -> ndarray:
         _img_as_float = self.img.astype(np.float)
-        width, height, c = _img_as_float.shape
+        c: Union[int, float] = _img_as_float.shape[3]
         _img = (
             0.2126 * _img_as_float[:, :, 0]
             + 0.7152 * _img_as_float[:, :, 1]
