@@ -11,6 +11,16 @@
 
 ![sample](./docs/m_tri3.jpg)
 
+# Table of contents
+1. [Installation](#installation)
+    1. [Download](#download-windows-binary)
+    2. [Running from source](#running-from-source)
+2. [Usage](#usage)
+3. [Use as a library]()
+    1. [API](#api)
+4. [Sample](#sample)
+5. [License](#license)
+
 # Installation
 
 ## Download Windows Binary
