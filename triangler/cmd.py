@@ -106,7 +106,7 @@ def main() -> None:
                 image,
                 None if not hasattr(args, "outputs") else args.outputs[index],
             ),
-            kwargs={"complete_message": 1},
+            kwargs={"print_log": True},
         )
         _process.daemon = True
         _processes.append(_process)

@@ -15,6 +15,7 @@ class Triangler(object):
     """
     Triangler wrapper
     """
+
     def __init__(
         self,
         edge_method: EdgeMethod = EdgeMethod.SOBEL,
@@ -65,15 +66,22 @@ class Triangler(object):
     def save(self, source: Union[str, ndarray], output: str = None, **kwargs) -> None:
         """
         Convert and save the result as image
-        :param source:
-        :param output:
+        :param source: An image you'd like to convert.
+        :param output: The name of the result image file.
         :return:
         """
+        _is_source_string: bool = isinstance(source, str)
+        if kwargs["print_log"]:
+            print(
+                "Converting {}{}...".format(
+                    "" if not _is_source_string else (source + " -> "), output
+                )
+            )
         imsave(
             output
             or (
                 "Triangler_{}.jpg".format(int(time.time()))
-                if not isinstance(source, str)
+                if not _is_source_string
                 else (
                     str().join(source.split(".")[:-1]) + "_tri." + source.split(".")[-1]
                 )
@@ -81,5 +89,5 @@ class Triangler(object):
             self.convert(source),
         )
 
-        if kwargs["complete_message"]:
-            print("{} [Done].".format(source))
+        if kwargs["print_log"]:
+            print("Saved {}".format(output))
