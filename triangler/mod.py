@@ -42,7 +42,7 @@ class Triangler(object):
     def convert(self, source: Union[str, ndarray]) -> ndarray:
         """
         Return converted image as array
-        :param source: The images you'd like to convert.
+        :param source: An image you'd like to convert.
         :return:
         """
         _type = type(source)
