@@ -12,6 +12,9 @@ from triangler.sampling import SampleMethod
 
 
 class Triangler(object):
+    """
+    Triangler wrapper
+    """
     def __init__(
         self,
         edge_method: EdgeMethod = EdgeMethod.SOBEL,
@@ -21,6 +24,14 @@ class Triangler(object):
         blur: int = 2,
         pyramid_reduce: bool = True,
     ):
+        """
+        :param edge_method: Edge detecting method
+        :param sample_method: Sampling method
+        :param color_method: Color transfer method
+        :param points: The number of sampling points
+        :param blur: Not required if you don't use Canny Edge Detecting
+        :param pyramid_reduce: Use pyramid reduce
+        """
         self.edge_method: EdgeMethod = edge_method
         self.sample_method: SampleMethod = sample_method
         self.color_method: ColorMethod = color_method
@@ -31,7 +42,7 @@ class Triangler(object):
     def convert(self, source: Union[str, ndarray]) -> ndarray:
         """
         Return converted image as array
-        :param source:
+        :param source: The images you'd like to convert.
         :return:
         """
         _type = type(source)
