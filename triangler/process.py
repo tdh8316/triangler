@@ -1,8 +1,11 @@
+from typing import Union
+
 import numba
 import numpy as np
 from numpy.core.multiarray import ndarray
 from scipy.spatial import Delaunay
 from skimage.draw import polygon
+from skimage.io import imread
 from skimage.transform import pyramid_reduce
 
 from triangler.color import ColorMethod
@@ -12,7 +15,7 @@ from triangler.sampling import SampleMethod
 
 @numba.jit(fastmath=True, parallel=True)
 def process(
-    img: ndarray,
+    img: Union[ndarray, str],
     coloring: ColorMethod,
     sampling: SampleMethod,
     edging: EdgeMethod,
@@ -20,6 +23,8 @@ def process(
     blur: int,
     reduce: bool,
 ) -> np.array:
+    if isinstance(img, str):
+        img = imread(img)
     sample_points: ndarray = EdgePoints(img, points, edging).get_edge_points(
         sampling=sampling, blur=blur,
     )
