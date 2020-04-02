@@ -16,7 +16,7 @@
     1. [Download](#download-windows-binary)
     2. [Running from source](#running-from-source)
 2. [Usage](#usage)
-3. [Use as a library]()
+3. [Use as a library](#api)
     1. [API](#api)
 4. [Sample](#sample)
 5. [License](#license)
@@ -48,7 +48,7 @@ $ activate triangler
 ```
 
 # Usage
-```cmd
+```
 (triangler)$ triangler -h
 usage: __main__.py [-h] [-o OUTPUT [OUTPUT ...]] [-s {POISSON_DISK,THRESHOLD}]
                    [-e {CANNY,ENTROPY,SOBEL}] [-b BLUR] [-c {MEAN,CENTROID}]
