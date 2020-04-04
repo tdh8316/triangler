@@ -4,6 +4,8 @@ from triangler.color import ColorMethod
 from triangler.edges import EdgeMethod
 from triangler.sampling import SampleMethod
 
+print(DeprecationWarning.__name__, ": This is deprecated and not maintained any more.")
+
 images: list = [x.strip() for x in input("IMAGE PATH(Split by comma):").split(",")]
 # sp = input("SAVE AS:")
 
