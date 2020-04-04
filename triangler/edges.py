@@ -93,7 +93,8 @@ class EdgeDetectors(object):
     @numba.jit(parallel=True, fastmath=True)
     def sobel(self) -> ndarray:
         _img_as_float = self.img.astype(np.float)
-        c: Union[int, float] = _img_as_float.shape[3]
+        c: Union[int, float]
+        _, _, c = _img_as_float.shape
         _img = (
             0.2126 * _img_as_float[:, :, 0]
             + 0.7152 * _img_as_float[:, :, 1]
