@@ -76,7 +76,7 @@ def main() -> None:
 
     logging.info("Options:{}".format(args))
 
-    if hasattr(args, "outputs") and len(args.images) != len(args.outputs):
+    if hasattr(args, "output") and len(args.images) != len(args.output):
         raise IndexError(
             "The number of input images and output targets are not matched."
         )
@@ -104,7 +104,7 @@ def main() -> None:
             target=t.save,
             args=(
                 image,
-                None if not hasattr(args, "outputs") else args.outputs[index],
+                None if not hasattr(args, "output") else args.output[index],
             ),
             kwargs={"print_log": True},
         )
