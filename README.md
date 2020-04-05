@@ -77,6 +77,7 @@ optional arguments:
 ```
 
 The sampling option; `POISSON_DISK` is extremely slow, while it can provide the best result.
+>You can see the results by options [here](./PREVIEW.md).
 
 It takes a minimum of 5 seconds (1000 points and threshold sampling) to a maximum of 3 minutes (50000 points and poisson disk sampling).
 
@@ -110,7 +111,6 @@ plt.show()
 |--------|---------|
 |![sample](./docs/birds.jpg)|![sample](./docs/birds_tri.jpg)|
 |![sample](./docs/yeji2.jpg)|![sample](./docs/yeji2_tri.jpg)|
-|![sample](./docs/bfly.jpg)|![sample](./docs/bfly_tri.jpg)|
 |![sample](./docs/parrot.jpg)|![sample](./docs/parrot_tri.jpg)|
 
 # License
