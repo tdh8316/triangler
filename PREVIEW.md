@@ -1,3 +1,5 @@
+![sample](./docs/diff/apples.jpg)
+
 # Sobel
 |Poisson Disk / Centroid|Poisson Disk / Mean|
 |:------:|:---------:|
