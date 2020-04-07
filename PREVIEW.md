@@ -1,4 +1,4 @@
-![sample](./docs/diff/apples.jpg){: width="50%" height="50%"}
+<img src="./docs/diff/apples.jpg" width="300" height="300">
 
 # Sobel
 |Poisson Disk / Centroid|Poisson Disk / Mean|
