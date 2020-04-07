@@ -1,4 +1,5 @@
-<img src="./docs/diff/apples.jpg" width="300" height="300">
+# Original image
+<img src="./docs/diff/apples.jpg" height="400">
 
 # Sobel
 |Poisson Disk / Centroid|Poisson Disk / Mean|
