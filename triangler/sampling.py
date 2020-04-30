@@ -15,12 +15,10 @@ class SampleMethod(enum.Enum):
     THRESHOLD = enum.auto()
 
 
-@numba.jit(nopython=True, parallel=True)
 def in_bounds(point: Tuple[int, int], width: int, height: int) -> bool:
     return 0 <= point[0] < width and 0 <= point[1] < height
 
 
-@numba.jit
 def has_neighbor(
     new_point: Tuple[int, int], rads: np.ndarray, tree: scipy.spatial.KDTree
 ) -> bool:
