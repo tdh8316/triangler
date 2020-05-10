@@ -71,22 +71,19 @@ class Triangler(object):
         :return:
         """
         _is_source_string: bool = isinstance(source, str)
+        _out = output or (
+            "Triangler_{}.jpg".format(int(time.time()))
+            if not _is_source_string
+            else (str().join(source.split(".")[:-1]) + "_tri." + source.split(".")[-1])
+        )
         if kwargs["print_log"]:
             print(
                 "Converting {}{}...".format(
-                    "" if not _is_source_string else (source + " -> "), output
+                    "" if not _is_source_string else (source + " -> "), _out
                 )
             )
         imsave(
-            output
-            or (
-                "Triangler_{}.jpg".format(int(time.time()))
-                if not _is_source_string
-                else (
-                    str().join(source.split(".")[:-1]) + "_tri." + source.split(".")[-1]
-                )
-            ),
-            self.convert(source),
+            _out, self.convert(source),
         )
 
         if kwargs["print_log"]:

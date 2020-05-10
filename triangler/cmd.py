@@ -76,10 +76,11 @@ def main() -> None:
 
     logging.info("Options:{}".format(args))
 
-    if hasattr(args, "output") and len(args.images) != len(args.output):
-        raise IndexError(
-            "The number of input images and output targets are not matched."
-        )
+    if hasattr(args, "output") and isinstance(args.output, list):
+        if len(args.images) != len(args.output):
+            raise IndexError(
+                "The number of input images and output targets are not matched."
+            )
 
     _e = EdgeMethod[args.edge.upper()]
 
@@ -104,7 +105,7 @@ def main() -> None:
             target=t.save,
             args=(
                 image,
-                None if not hasattr(args, "output") else args.output[index],
+                None if not isinstance(args.output, list) else args.output[index],
             ),
             kwargs={"print_log": True},
         )
