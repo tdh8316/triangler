@@ -5,7 +5,7 @@ import triangler
 import matplotlib.pyplot as plt
 
 # Read image from disk
-img = imread("../test/piano.jpg")
+img = imread("IMAGE_PATH.jpg")
 
 # Create Triangler instance
 t = triangler.Triangler(sample_method=triangler.SampleMethod.POISSON_DISK)
