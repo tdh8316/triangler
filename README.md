@@ -49,7 +49,7 @@ $ activate triangler
 
 # Usage
 ```
-(triangler)$ triangler -h
+(triangler)$ python -m triangler -h
 usage: __main__.py [-h] [-o OUTPUT [OUTPUT ...]] [-s {POISSON_DISK,THRESHOLD}]
                    [-e {CANNY,ENTROPY,SOBEL}] [-b BLUR] [-c {MEAN,CENTROID}]
                    [-p POINTS] [-l REDUCE] [-v]
