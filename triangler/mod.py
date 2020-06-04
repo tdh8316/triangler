@@ -1,4 +1,4 @@
-import time
+from datetime import datetime
 from typing import Union
 
 from numpy.core.multiarray import ndarray
@@ -72,7 +72,7 @@ class Triangler(object):
         """
         _is_source_string: bool = isinstance(source, str)
         _out = output or (
-            "Triangler_{}.jpg".format(int(time.time()))
+            "Triangler_{}.jpg".format(datetime.now().strftime("%H-%M-%b-%d-%G"))
             if not _is_source_string
             else (str().join(source.split(".")[:-1]) + "_tri." + source.split(".")[-1])
         )
@@ -87,4 +87,4 @@ class Triangler(object):
         )
 
         if kwargs["print_log"]:
-            print("Saved {}".format(output))
+            print("Saved {}".format(_out))
