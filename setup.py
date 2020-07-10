@@ -5,7 +5,7 @@ with open("README.md") as fh:
 
 setup(
     name="triangler",
-    version="0.3",
+    version="0.4",
     packages=["triangler"],
     url="https://github.com/tdh8316/triangler",
     license="MIT License",

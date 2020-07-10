@@ -76,10 +76,10 @@ optional arguments:
   -v, --verbose         Set logger level as DEBUG (default: False)
 ```
 
-The sampling option; `POISSON_DISK` is extremely slow, while it can provide the best result.
+The `POISSON_DISK` sampling option is slow, while it can provide the best result.
 >You can see the results by options [here](./PREVIEW.md).
 
-It takes a minimum of 5 seconds (1000 points and threshold sampling) to a maximum of 3 minutes (50000 points and poisson disk sampling).
+It takes a minimum of 5 seconds (1000 points and threshold sampling) to a maximum of 2 minutes (10000 points and poisson disk sampling).
 
 ## API
 See example:
