@@ -1,6 +1,8 @@
 # Original image
 <img src="./docs/diff/apples.jpg" height="400">
 
+`The Basket of Apples` by `Paul Cézanne`
+
 # Sobel
 |Poisson Disk / Centroid|Poisson Disk / Mean|
 |:------:|:---------:|
