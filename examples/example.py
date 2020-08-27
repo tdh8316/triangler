@@ -1,21 +1,23 @@
-from skimage.io import imread
-
 import triangler
 
-import matplotlib.pyplot as plt
-
-# Read image from disk
-img = imread("IMAGE_PATH.jpg")
+# TODO: Change this
+img_path = "IMAGE_PATH.jpg"
 
 # Create Triangler instance
-t = triangler.Triangler(sample_method=triangler.SampleMethod.POISSON_DISK)
+t = triangler.Triangler(
+    # TODO: Customize these arguments
+    # edge_method=EdgeMethod.SOBEL,
+    # sample_method=SampleMethod.THRESHOLD,
+    # color_method=ColorMethod.CENTROID,
+    # points=1000,
+    # blur=2,
+    # pyramid_reduce=True,
+)
 
-print("Converting... ")
+print("Converting {}... ".format(img_path))
 # Convert
-img_tri = t.convert(img)
-print("[Done]")
+img_tri = t.convert(img_path)
 
-_, axes = plt.subplots(1, 2, figsize=(16, 16))
-axes[0].imshow(img)
-axes[1].imshow(img_tri)
-plt.show()
+save_path = "triangler_example.{ext}".format(ext=img_path.split(".")[-1])
+# Save
+t.save(img_tri, save_path)
