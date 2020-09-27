@@ -46,11 +46,10 @@ class Triangler(object):
         :param source: An image you'd like to convert.
         :return:
         """
-        _type = type(source)
-        if _type not in (str, ndarray):
-            raise TypeError("Supported type: str, ndarray but {}".format(_type))
+        if not isinstance(source, (str, ndarray)):
+            raise TypeError("Supported type: str, ndarray but {}".format(type(source)))
 
-        if _type is str:
+        if isinstance(source, str):
             source = imread(source)
 
         return process(
