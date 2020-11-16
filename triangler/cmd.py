@@ -12,6 +12,7 @@ from triangler.sampling import SampleMethod
 
 # noinspection PyProtectedMember
 def main() -> None:
+    # noinspection PyTypeChecker
     parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
 
     parser.add_argument("images", help="Source files", nargs="+", type=str)
@@ -84,8 +85,12 @@ def main() -> None:
 
     _e = EdgeMethod[args.edge.upper()]
 
-    if _e is EdgeMethod.CANNY and args.blur < 0:
-        raise ValueError("Blur value must be positive integer.")
+    if _e is EdgeMethod.CANNY:
+        if args.blur < 0:
+            raise ValueError("Blur value must be positive integer.")
+    else:
+        if args.blur != 2:
+            raise Warning("`-b` option has no effect except in the case of Canny Edge Detector.")
 
     # TODO: Recognize wildcard
 
