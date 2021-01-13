@@ -18,6 +18,8 @@ print("Converting {}... ".format(img_path))
 # Convert
 img_tri = t.convert(img_path)
 
-save_path = "triangler_example.{ext}".format(ext=img_path.split(".")[-1])
 # Save
-t.save(img_tri, save_path)
+save_path = "triangler_example.{ext}".format(ext=img_path.split(".")[-1])
+triangler.imsave(save_path, img_tri)
+
+input("Done! Press Enter to continue...")
