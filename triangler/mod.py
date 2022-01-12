@@ -1,3 +1,4 @@
+import os.path
 from datetime import datetime
 from typing import Union
 
@@ -74,12 +75,12 @@ class Triangler(object):
         _output_path = output or (
             "Triangler_{}.jpg".format(datetime.now().strftime("%H-%M-%b-%d-%G"))
             if not _is_source_string
-            else (str().join(source.split(".")[:-1]) + "_tri." + source.split(".")[-1])
+            else "./" + (str().join(source.split(".")[:-1]) + "_tri." + source.split(".")[-1])
         )
         if verbose:
             print(
                 "Converting {}...".format(
-                    source if _is_source_string else ""
+                    os.path.realpath(source) if _is_source_string else ""
                 )
             )
         imsave(
@@ -87,4 +88,4 @@ class Triangler(object):
         )
 
         if verbose:
-            print("Saved the result to '{}'".format(_output_path))
+            print("Saved the result to '{}'".format(os.path.realpath(_output_path)))

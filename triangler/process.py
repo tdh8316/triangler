@@ -1,5 +1,4 @@
 import warnings as _warnings
-from time import time as _time
 from typing import Union
 
 import numba
@@ -15,7 +14,7 @@ from triangler.color import ColorMethod
 from triangler.edges import EdgePoints, EdgeMethod
 from triangler.sampling import SampleMethod
 
-_np.random.seed(int(_time()))
+_np.random.seed(822)
 _warnings.filterwarnings("ignore")
 
 

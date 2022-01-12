@@ -90,7 +90,7 @@ def main() -> None:
             raise ValueError("Blur value must be positive integer.")
     else:
         if args.blur != 2:
-            raise Warning("`-b` option has no effect except in the case of Canny Edge Detector.")
+            raise UserWarning("`--blur` option has no effect except in the case of using Canny Edge Detector.")
 
     # TODO: Recognize wildcard
 
@@ -110,9 +110,9 @@ def main() -> None:
             target=t.convert_and_save,
             args=(
                 image,
-                None if not isinstance(args.output, list) else args.output[index],
+                args.output if not isinstance(args.output, list) else args.output[index],
+                True,
             ),
-            kwargs={"print_log": True},
         )
         _process.daemon = True
         _processes.append(_process)
