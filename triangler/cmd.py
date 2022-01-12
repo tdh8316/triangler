@@ -107,7 +107,7 @@ def main() -> None:
     _processes: List[multiprocessing.Process] = []
     for index, image in enumerate(args.images):
         _process = multiprocessing.Process(
-            target=t.save,
+            target=t.convert_and_save,
             args=(
                 image,
                 None if not isinstance(args.output, list) else args.output[index],
