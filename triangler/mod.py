@@ -62,28 +62,29 @@ class Triangler(object):
             reduce=self.pyramid_reduce,
         )
 
-    def save(self, source: Union[str, ndarray], output: str = None, **kwargs) -> None:
+    def convert_and_save(self, source: Union[str, ndarray], output: str = None, verbose: bool = False) -> None:
         """
         Convert and save the result as image
+        :param verbose:
         :param source: An image you'd like to convert.
         :param output: The name of the result image file.
         :return:
         """
         _is_source_string: bool = isinstance(source, str)
-        _out = output or (
+        _output_path = output or (
             "Triangler_{}.jpg".format(datetime.now().strftime("%H-%M-%b-%d-%G"))
             if not _is_source_string
             else (str().join(source.split(".")[:-1]) + "_tri." + source.split(".")[-1])
         )
-        if "kwargs" in kwargs.keys() and kwargs["print_log"]:
+        if verbose:
             print(
-                "Converting {}{}...".format(
-                    "" if not _is_source_string else (source + " -> "), _out
+                "Converting {}...".format(
+                    source if _is_source_string else ""
                 )
             )
         imsave(
-            _out, self.convert(source),
+            _output_path, self.convert(source),
         )
 
-        if kwargs["print_log"]:
-            print("Saved {}".format(_out))
+        if verbose:
+            print("Saved the result to '{}'".format(_output_path))

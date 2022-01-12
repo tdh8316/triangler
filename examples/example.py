@@ -4,7 +4,7 @@ import triangler
 img_path = "IMAGE_PATH.jpg"
 
 # Create Triangler instance
-t = triangler.Triangler(
+triangler_instance = triangler.Triangler(
     # TODO: Customize these arguments
     # edge_method=EdgeMethod.SOBEL,
     # sample_method=SampleMethod.THRESHOLD,
@@ -15,11 +15,9 @@ t = triangler.Triangler(
 )
 
 print("Converting {}... ".format(img_path))
-# Convert
-img_tri = t.convert(img_path)
 
-# Save
-save_path = "triangler_example.{ext}".format(ext=img_path.split(".")[-1])
-triangler.imsave(save_path, img_tri)
+# Convert and save as an image
+triangler_instance.convert_and_save(img_path)
+
 
 input("Done! Press Enter to continue...")
