@@ -75,7 +75,7 @@ class Triangler(object):
             if not _is_source_string
             else (str().join(source.split(".")[:-1]) + "_tri." + source.split(".")[-1])
         )
-        if kwargs["print_log"]:
+        if "kwargs" in kwargs.keys() and kwargs["print_log"]:
             print(
                 "Converting {}{}...".format(
                     "" if not _is_source_string else (source + " -> "), _out
