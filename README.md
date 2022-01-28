@@ -84,33 +84,35 @@ It takes a minimum of 5 seconds (1000 points and threshold sampling) to a maximu
 ## API
 See [example](https://github.com/tdh8316/triangler/blob/master/examples/example.py) code:
 ```python
-from skimage.io import imread
 import triangler
-import matplotlib.pyplot as plt
 
-t = triangler.Triangler(sample_method=triangler.SampleMethod.POISSON_DISK)
+# Create Triangler instance
+triangler_instance = triangler.Triangler(
+    # TODO: Customize these arguments
+    # edge_method=EdgeMethod.SOBEL,
+    # sample_method=SampleMethod.THRESHOLD,
+    # color_method=ColorMethod.CENTROID,
+    # points=1000,
+    # blur=2,
+    # pyramid_reduce=True,
+)
 
-img = imread("image.jpg")
-img_tri = t.convert(img)
-
-_, axes = plt.subplots(1, 2, figsize=(16, 16))
-axes[0].imshow(img)
-axes[1].imshow(img_tri)
-plt.show()
+# Convert and save as an image
+triangler_instance.convert_and_save("INPUT_PATH", "OUTPUT_PATH")
 ```
 
 # Sample
-|Original|5000 Points|
-|:------:|:---------:|
-|![sample](./docs/m.jpg)|![sample](./docs/m_tri.jpg)
-|**2500 Points**|**1000 Points**|
-|![sample](./docs/m_tri2.jpg)|![sample](./docs/m_tri3.jpg)|
+|           Original           |         5000 Points          |
+|:----------------------------:|:----------------------------:|
+|   ![sample](./docs/m.jpg)    | ![sample](./docs/m_tri.jpg)  |
+|       **2500 Points**        |       **1000 Points**        |
+| ![sample](./docs/m_tri2.jpg) | ![sample](./docs/m_tri3.jpg) |
 
-|Original|Processed|
-|--------|---------|
-|![sample](./docs/birds.jpg)|![sample](./docs/birds_tri.jpg)|
-|![sample](./docs/yeji2.jpg)|![sample](./docs/yeji2_tri.jpg)|
-|![sample](./docs/parrot.jpg)|![sample](./docs/parrot_tri.jpg)|
+| Original                     | Processed                        |
+|------------------------------|----------------------------------|
+| ![sample](./docs/birds.jpg)  | ![sample](./docs/birds_tri.jpg)  |
+| ![sample](./docs/yeji2.jpg)  | ![sample](./docs/yeji2_tri.jpg)  |
+| ![sample](./docs/parrot.jpg) | ![sample](./docs/parrot_tri.jpg) |
 
 # License
 Licensed under the **MIT** License.
