@@ -16,7 +16,7 @@ setup(
     long_description_content_type="text/markdown",
     install_requires=[
         "scikit-image",
-        "numpy==1.17.2",
+        "numpy==1.21.0",
         "scipy==1.4.1",
         "numba",
         "imageio",
