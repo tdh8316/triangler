@@ -80,7 +80,9 @@ def main() -> None:
     if hasattr(args, "output") and isinstance(args.output, list):
         if len(args.images) != len(args.output):
             raise IndexError(
-                "The number of input images and output targets are not matched."
+                "The input and output lengths do not match. (input: {}, output: {})".format(
+                    len(args.images), len(args.output),
+                )
             )
 
     _e = EdgeMethod[args.edge.upper()]

@@ -115,9 +115,9 @@ triangler_instance.convert_and_save("INPUT_PATH", "OUTPUT_PATH")
 | ![sample](./docs/parrot.jpg) | ![sample](./docs/parrot_tri.jpg) |
 
 # License
-Licensed under the **MIT** License.
+Licensed under the MIT License.
 
-Copyright 2020 `Donghyeok Tak`
+Copyright 2022 `Donghyeok Tak`
 
 ## Special thanks
 Some algorithms, including the `Poisson disk sampling`, are based on [pmaldonado/PyTri](https://github.com/pmaldonado/PyTri).

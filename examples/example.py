@@ -14,8 +14,6 @@ triangler_instance = triangler.Triangler(
     # pyramid_reduce=True,
 )
 
-print("Converting {}... ".format(img_path))
-
 # Convert and save as an image
 triangler_instance.convert_and_save(img_path)
 
