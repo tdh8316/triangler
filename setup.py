@@ -15,7 +15,6 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=[
-        "matplotlib",
         "scikit-image",
         "numpy==1.17.2",
         "scipy==1.4.1",
