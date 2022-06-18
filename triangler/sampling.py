@@ -11,8 +11,8 @@ import scipy.spatial
 
 
 class SampleMethod(enum.Enum):
-    POISSON_DISK = enum.auto()
-    THRESHOLD = enum.auto()
+    POISSON_DISK = 1
+    THRESHOLD = 2
 
 
 def in_bounds(point: Tuple[int, int], width: int, height: int) -> bool:
@@ -20,7 +20,7 @@ def in_bounds(point: Tuple[int, int], width: int, height: int) -> bool:
 
 
 def has_neighbor(
-    new_point: Tuple[int, int], rads: np.ndarray, tree: scipy.spatial.KDTree
+        new_point: Tuple[int, int], rads: np.ndarray, tree: scipy.spatial.KDTree
 ) -> bool:
     return len(tree.query_ball_point(new_point, rads[new_point])) > 0
 
@@ -70,7 +70,7 @@ def poisson_disk_sample(n: int, weights: np.array) -> np.ndarray:
             new_point = get_point_near(point, rads, max_rad)
 
             if in_bounds(new_point, width=width, height=height) and not has_neighbor(
-                new_point, rads, tree
+                    new_point, rads, tree
             ):
                 queue.append(new_point)
                 sample_points.append(new_point)
@@ -86,7 +86,7 @@ def poisson_disk_sample(n: int, weights: np.array) -> np.ndarray:
 
 @numba.jit(parallel=True, nopython=True)
 def get_point_near(
-    point: Tuple[int, int], rads: np.array, max_rad: int
+        point: Tuple[int, int], rads: np.array, max_rad: int
 ) -> Tuple[int, int]:
     """
     Randomly samples an annulus near a given point using a uniform

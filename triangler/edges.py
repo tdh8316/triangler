@@ -1,4 +1,3 @@
-import enum
 from enum import Enum
 from typing import Union
 
@@ -21,9 +20,9 @@ from triangler.sampling import (
 
 
 class EdgeMethod(Enum):
-    CANNY = enum.auto()
-    ENTROPY = enum.auto()
-    SOBEL = enum.auto()
+    CANNY = 1
+    ENTROPY = 2
+    SOBEL = 3
 
 
 class EdgePoints(object):
