@@ -42,9 +42,7 @@ Follow manual below to create python virtual environment for `Triangler` with `A
 ```cmd
 $ conda create -n triangler python=3.8
 $ activate triangler
-(triangler)$ git clone https://github.com/tdh8316/triangler.git
-(triangler)$ cd triangler
-(triangler)$ python setup.py install
+(triangler)$ python -m pip install git+https://github.com/tdh8316/triangler/
 ```
 
 # Usage
