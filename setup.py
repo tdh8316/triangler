@@ -3,6 +3,9 @@ from setuptools import setup
 with open("README.md") as fh:
     long_description = fh.read()
 
+with open("requirements.txt") as rq:
+    install_requires = rq.readlines()
+
 setup(
     name="triangler",
     version="0.4",
@@ -14,13 +17,7 @@ setup(
     description="Convert images to Low-Poly art using Delaunay triangulation.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    install_requires=[
-        "scikit-image",
-        "numpy==1.17.2",
-        "scipy==1.4.1",
-        "numba",
-        "imageio",
-    ],
+    install_requires=install_requires,
     python_requires=">=3.6",
     classifiers=[
         "Programming Language :: Python :: 3",
