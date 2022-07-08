@@ -81,7 +81,8 @@ def main() -> None:
         if len(args.images) != len(args.output):
             raise IndexError(
                 "The input and output lengths do not match. (input: {}, output: {})".format(
-                    len(args.images), len(args.output),
+                    len(args.images),
+                    len(args.output),
                 )
             )
 
@@ -92,7 +93,9 @@ def main() -> None:
             raise ValueError("Blur value must be positive integer.")
     else:
         if args.blur != 2:
-            raise UserWarning("`--blur` option has no effect except in the case of using Canny Edge Detector.")
+            raise UserWarning(
+                "`--blur` option has no effect except in the case of using Canny Edge Detector."
+            )
 
     # TODO: Recognize wildcard
 

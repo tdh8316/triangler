@@ -84,7 +84,8 @@ class Triangler(object):
                 )
             )
         imsave(
-            _output_path, self.convert(source),
+            _output_path,
+            self.convert(source),
         )
 
         if verbose:

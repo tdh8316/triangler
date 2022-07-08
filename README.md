@@ -7,45 +7,31 @@
 [![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2Ftdh8316%2Ftriangler)](https://twitter.com/intent/tweet?text=Convert%20images%20to%20Low-Poly%20art:&url=https%3A%2F%2Fgithub.com%2Ftdh8316%2Ftriangler)
 
 # Overview
-`Triangler` is a tool to generate Low-Polygon image using [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
+Triangler is a tool to generate Low-Polygon image using [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
 
 ![sample](./docs/m_tri3.jpg)
 
-# Table of contents
+## Table of contents
 1. [Installation](#installation)
-    1. [Download](#download-windows-binary)
-    2. [Running from source](#running-from-source)
 2. [Usage](#usage)
 3. [Use as a library](#api)
-    1. [API](#api)
 4. [Sample](#sample)
 5. [License](#license)
 
-# Installation
+## Installation
+You need [Python](https://www.python.org/) 3.6 or higher.
 
-## Download Windows Binary
-You can download the binary for `Windows`.
-Note that the Windows binary is slower than running from source.
- - [Download Page](https://github.com/tdh8316/triangler/releases)
- 
->Note: The Binary Release is often old and needs to rebuild.
+I strongly recommend to use virtual environment such as Anaconda.
+You can [download Anaconda here](https://www.anaconda.com/distribution/#download-section).
 
-See [#usage](https://github.com/tdh8316/triangler#usage) section for usage.
-
-## Running from source
-You need [`Python 3.6`](https://www.python.org/) or higher.
-
-I strongly recommend to use virtual environment such as `Anaconda`.
-You can [download `Anaconda` here](https://www.anaconda.com/distribution/#download-section).
-
-Follow manual below to create python virtual environment for `Triangler` with `Anaconda`.
+Follow manual below to create python virtual environment for Triangler with the Anaconda.
 ```cmd
 $ conda create -n triangler python=3.8
 $ activate triangler
 (triangler)$ python -m pip install git+https://github.com/tdh8316/triangler/
 ```
 
-# Usage
+## Usage
 ```
 (triangler)$ python -m triangler -h
 usage: __main__.py [-h] [-o OUTPUT [OUTPUT ...]] [-s {POISSON_DISK,THRESHOLD}]
@@ -99,7 +85,7 @@ triangler_instance = triangler.Triangler(
 triangler_instance.convert_and_save("INPUT_PATH", "OUTPUT_PATH")
 ```
 
-# Sample
+## Sample
 |           Original           |         5000 Points          |
 |:----------------------------:|:----------------------------:|
 |   ![sample](./docs/m.jpg)    | ![sample](./docs/m_tri.jpg)  |
@@ -112,10 +98,10 @@ triangler_instance.convert_and_save("INPUT_PATH", "OUTPUT_PATH")
 | ![sample](./docs/yeji2.jpg)  | ![sample](./docs/yeji2_tri.jpg)  |
 | ![sample](./docs/parrot.jpg) | ![sample](./docs/parrot_tri.jpg) |
 
-# License
+## License
 Licensed under the MIT License.
 
 Copyright 2022 `Donghyeok Tak`
 
 ## Special thanks
-Some algorithms, including the `Poisson disk sampling`, are based on [pmaldonado/PyTri](https://github.com/pmaldonado/PyTri).
+Some algorithms, including the Poisson disk sampling, are based on [pmaldonado/PyTri](https://github.com/pmaldonado/PyTri).
