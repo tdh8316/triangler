@@ -2,7 +2,6 @@ import warnings as _warnings
 from typing import Union
 
 import numba
-import numpy as _np
 import numpy as np
 from numpy.core.multiarray import ndarray
 from scipy.spatial import Delaunay
@@ -14,7 +13,7 @@ from triangler.color import ColorMethod
 from triangler.edges import EdgePoints, EdgeMethod
 from triangler.sampling import SampleMethod
 
-_np.random.seed(822)
+np.random.seed(822)
 _warnings.filterwarnings("ignore")
 
 
