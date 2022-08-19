@@ -7,7 +7,7 @@
 [![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2Ftdh8316%2Ftriangler)](https://twitter.com/intent/tweet?text=Convert%20images%20to%20Low-Poly%20art:&url=https%3A%2F%2Fgithub.com%2Ftdh8316%2Ftriangler)
 
 # Overview
-Triangler is a tool to generate Low-Polygon image using [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
+:triangular_ruler: Convert images to Low-Poly art using [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
 
 ![sample](./docs/m_tri3.jpg)
 
