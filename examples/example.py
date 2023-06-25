@@ -1,7 +1,7 @@
 import triangler
 
 # TODO: Change this
-img_path = "../test/apples.jpg"
+img_path = "IMAGE_PATH.jpg"
 
 # Create Triangler instance
 triangler_instance = triangler.Triangler(
@@ -15,7 +15,7 @@ triangler_instance = triangler.Triangler(
 )
 
 # Convert and save as an image
-triangler_instance.convert_and_save(img_path, output="test.jpg")
+triangler_instance.convert_and_save(img_path)
 
 
 input("Done! Press Enter to continue...")
