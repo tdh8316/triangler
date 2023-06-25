@@ -6,11 +6,11 @@ import numpy as np
 import skimage.restoration
 from numpy.core.multiarray import ndarray
 from scipy.signal import convolve2d
-from skimage import img_as_float64, img_as_ubyte
 from skimage.color import rgb2gray, rgb2lab
 from skimage.filters import scharr, gaussian
 from skimage.filters.rank import entropy
 from skimage.morphology import disk, dilation
+from skimage.util import img_as_float64, img_as_ubyte
 
 from triangler.sampling import (
     SampleMethod,
@@ -89,9 +89,8 @@ class EdgeDetectors(object):
     def __init__(self, img: ndarray):
         self.img: ndarray = img
 
-    @numba.jit(parallel=True, fastmath=True)
     def sobel(self) -> ndarray:
-        _img_as_float = self.img.astype(np.float)
+        _img_as_float = self.img.astype(float)
         c: Union[int, float]
         _, _, c = _img_as_float.shape
         _img = (
@@ -110,7 +109,7 @@ class EdgeDetectors(object):
                 [-4, -8, 0, 8, 4],
                 [-1, -2, 0, 2, 1],
             ],
-            dtype=np.float,
+            dtype=float,
         )
         kv = np.array(
             [
@@ -120,7 +119,7 @@ class EdgeDetectors(object):
                 [-2, -8, -12, -8, -2],
                 [-1, -4, -6, -4, -1],
             ],
-            dtype=np.float,
+            dtype=float,
         )
 
         gx = convolve2d(_img, kh, mode="same", boundary="symm")
@@ -131,7 +130,6 @@ class EdgeDetectors(object):
 
         return g
 
-    @numba.jit(fastmath=True)
     def entropy(self, bal=0.1) -> ndarray:
         dn_img = skimage.restoration.denoise_tv_bregman(self.img, 0.1)
         img_gray = rgb2gray(dn_img)
@@ -154,7 +152,6 @@ class EdgeDetectors(object):
 
         return weight
 
-    @numba.jit(parallel=True, fastmath=True)
     def canny(self, blur: int) -> ndarray:
         # gray_img = rgb2gray(self.img)
         # return cv2.Canny(gray_img, self.threshold, self.threshold*3)

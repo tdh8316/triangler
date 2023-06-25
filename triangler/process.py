@@ -7,7 +7,6 @@ from numpy.core.multiarray import ndarray
 from scipy.spatial import Delaunay
 from skimage.draw import polygon
 from skimage.io import imread
-from skimage.transform import pyramid_reduce
 
 from triangler.color import ColorMethod
 from triangler.edges import EdgePoints, EdgeMethod
@@ -19,13 +18,13 @@ _warnings.filterwarnings("ignore")
 
 @numba.jit(fastmath=True, parallel=True)
 def process(
-    img: Union[ndarray, str],
-    coloring: ColorMethod,
-    sampling: SampleMethod,
-    edging: EdgeMethod,
-    points: int,
-    blur: int,
-    reduce: bool,
+        img: Union[ndarray, str],
+        coloring: ColorMethod,
+        sampling: SampleMethod,
+        edging: EdgeMethod,
+        points: int,
+        blur: int,
+        reduce: bool,
 ) -> np.array:
     if isinstance(img, str):
         img = imread(img)
@@ -52,11 +51,17 @@ def process(
                 img[polygon(triangle[:, 0], triangle[:, 1], img.shape)], axis=0
             )
     else:
-        raise ValueError(
+        print(
             "Unexpected coloring method: {}\n"
             "use {} instead: {}".format(
                 coloring, ColorMethod.__name__, ColorMethod.__members__
             )
         )
+        exit()
 
-    return pyramid_reduce(res, multichannel=True) if reduce else res
+    if reduce:
+        raise RuntimeWarning("Option -l or --reduce is temporarily unavailable due to"
+                             " the deprecated parameter multichannel of scikit-image.")
+
+    # return pyramid_reduce(res, multichannel=True) if reduce else res
+    return res

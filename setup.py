@@ -8,7 +8,7 @@ with open("requirements.txt") as rq:
 
 setup(
     name="triangler",
-    version="0.4",
+    version="0.5",
     packages=["triangler"],
     url="https://github.com/tdh8316/triangler",
     license="MIT License",

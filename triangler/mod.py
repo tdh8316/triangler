@@ -2,6 +2,8 @@ import os.path
 from datetime import datetime
 from typing import Union
 
+import numpy as np
+from PIL import Image
 from numpy.core.multiarray import ndarray
 from skimage.io import imread
 from skimage.io import imsave
@@ -83,10 +85,10 @@ class Triangler(object):
                     os.path.realpath(source) if _is_source_string else ""
                 )
             )
-        imsave(
-            _output_path,
-            self.convert(source),
-        )
+
+        im = Image.fromarray(self.convert(source).astype(np.uint8))
+        im.convert("RGB")
+        im.save(_output_path)
 
         if verbose:
             print("Saved the result to '{}'".format(os.path.realpath(_output_path)))

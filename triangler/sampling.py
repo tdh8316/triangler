@@ -25,7 +25,7 @@ def has_neighbor(
     return len(tree.query_ball_point(new_point, rads[new_point])) > 0
 
 
-@numba.jit(fastmath=True, parallel=True)
+@numba.jit(fastmath=True, parallel=True, nopython=True)
 def poisson_disk_sample(n: int, weights: np.array) -> np.ndarray:
     """
     Performs weighted poisson disk sampling over a region.
