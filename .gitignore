@@ -1,5 +1,5 @@
-/.idea/
-/build/
-/dist/
-/test/
-./*.jpg
+# IntelliJ IDEA
+.idea
+
+# Python caches
+**/__pycache__
