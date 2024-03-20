@@ -1,17 +1,19 @@
 ![Works on my machine](https://img.shields.io/badge/works-on%20my%20machine-green)
 
-[![Python](https://img.shields.io/badge/Python-%20>=3.6-blue.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/Python-%203.10-blue.svg)](https://www.python.org/downloads/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Stargazers](https://img.shields.io/github/stars/tdh8316/triangler.svg)](https://github.com/tdh8316/triangler/stargazers)
 [![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2Ftdh8316%2Ftriangler)](https://twitter.com/intent/tweet?text=Convert%20images%20to%20Low-Poly%20art:&url=https%3A%2F%2Fgithub.com%2Ftdh8316%2Ftriangler)
 
 # Overview
-:triangular_ruler: Convert images to Low-Poly art using [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
+
+📐 Convert images to Low-Poly art using [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
 
 ![sample](./docs/m_tri3.jpg)
 
 ## Table of contents
+
 1. [Installation](#installation)
 2. [Usage](#usage)
 3. [Use as a library](#api)
@@ -19,89 +21,81 @@
 5. [License](#license)
 
 ## Installation
-You need [Python](https://www.python.org/) 3.6 or higher.
+
+You need [Python](https://www.python.org/) 3.10 or higher.
 
 I strongly recommend to use virtual environment such as Anaconda.
 You can [download Anaconda here](https://www.anaconda.com/distribution/#download-section).
 
 Follow manual below to create python virtual environment for Triangler with the Anaconda.
+
 ```cmd
-$ conda create -n triangler python=3.8
+$ conda create -n triangler python=3.12
 $ activate triangler
 (triangler)$ python -m pip install git+https://github.com/tdh8316/triangler/
 ```
 
 ## Usage
+
 ```
 (triangler)$ python -m triangler -h
-usage: __main__.py [-h] [-o OUTPUT [OUTPUT ...]] [-s {POISSON_DISK,THRESHOLD}]
-                   [-e {CANNY,ENTROPY,SOBEL}] [-b BLUR] [-c {MEAN,CENTROID}]
-                   [-p POINTS] [-l REDUCE] [-v]
-                   images [images ...]
+usage: __main__.py [-h] [-o OUTPUT] [-p POINTS] [-e {CANNY,ENTROPY,SOBEL}] [-s {POISSON_DISK,THRESHOLD}] [-r {CENTROID,MEAN}] input
 
 positional arguments:
-  images                Source files
+  input                 Input image
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
-  -o OUTPUT [OUTPUT ...], --output OUTPUT [OUTPUT ...]
-                        Destination file (default: None)
-  -s {POISSON_DISK,THRESHOLD}, --sample {POISSON_DISK,THRESHOLD}
-                        Sampling method for candidate points. (default: THRESHOLD)
-  -e {CANNY,ENTROPY,SOBEL}, --edge {CANNY,ENTROPY,SOBEL}
-                        Pre-processing method to use. (default: SOBEL)
-  -b BLUR, --blur BLUR  Blur radius for approximate canny edge detector.
-                        (default: 2)
-  -c {MEAN,CENTROID}, --color {MEAN,CENTROID}
-                        Coloring method for rendering. (default: CENTROID)
+  -o OUTPUT, --output OUTPUT
+                        Output image name
   -p POINTS, --points POINTS
-                        Points threshold. (default: 1024)
-  -l, --reduce          Apply pyramid reduce to result image (default: False)
-  -v, --verbose         Set logger level as DEBUG (default: False)
+                        Number of sample points to use
+  -e {CANNY,ENTROPY,SOBEL}, --edge-detector {CANNY,ENTROPY,SOBEL}
+                        Edge detection algorithm
+  -s {POISSON_DISK,THRESHOLD}, --sampler {POISSON_DISK,THRESHOLD}
+                        Point sampling algorithm
+  -r {CENTROID,MEAN}, --renderer {CENTROID,MEAN}
+                        Color polygon rendering algorithm
 ```
 
-The `POISSON_DISK` sampling option is slow, while it can provide the best result.
->You can see the results by options [here](./PREVIEW.md).
-
-It takes a minimum of 5 seconds (1000 points and threshold sampling) to a maximum of 2 minutes (10000 points and poisson disk sampling).
-
 ## API
-See [example](https://github.com/tdh8316/triangler/blob/master/examples/example.py) code:
+
+You can use Triangler as a library.
+
 ```python
 import triangler
 
-# Create Triangler instance
-triangler_instance = triangler.Triangler(
-    # TODO: Customize these arguments
-    # edge_method=EdgeMethod.SOBEL,
-    # sample_method=SampleMethod.THRESHOLD,
-    # color_method=ColorMethod.CENTROID,
-    # points=1000,
-    # blur=2,
-    # pyramid_reduce=True,
+triangler.convert(
+    img="INPUT_IMAGE.jpg",
+    save_path="OUTPUT_IMAGE.jpg",
 )
-
-# Convert and save as an image
-triangler_instance.convert_and_save("INPUT_PATH", "OUTPUT_PATH")
 ```
 
 ## Sample
+
+### Effect of the number of points
+
 |           Original           |         5000 Points          |
 |:----------------------------:|:----------------------------:|
 |   ![sample](./docs/m.jpg)    | ![sample](./docs/m_tri.jpg)  |
 |       **2500 Points**        |       **1000 Points**        |
 | ![sample](./docs/m_tri2.jpg) | ![sample](./docs/m_tri3.jpg) |
 
-| Original                     | Processed                        |
+### More samples
+
+| Original                     | Triangler                        |
 |------------------------------|----------------------------------|
 | ![sample](./docs/birds.jpg)  | ![sample](./docs/birds_tri.jpg)  |
 | ![sample](./docs/yeji2.jpg)  | ![sample](./docs/yeji2_tri.jpg)  |
 | ![sample](./docs/parrot.jpg) | ![sample](./docs/parrot_tri.jpg) |
 
 ## License
+
 Licensed under the MIT License.
 
-Copyright 2022 `Donghyeok Tak`
+Copyright 2024 `Donghyeok Tak`
 
-## Special thanks
-Some algorithms, including the Poisson disk sampling, are based on [pmaldonado/PyTri](https://github.com/pmaldonado/PyTri).
+## Credits
+
+Some algorithms, including the Poisson disk sampling, are based
+on [pmaldonado/PyTri](https://github.com/pmaldonado/PyTri).

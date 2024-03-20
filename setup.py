@@ -8,7 +8,7 @@ with open("requirements.txt") as rq:
 
 setup(
     name="triangler",
-    version="0.5",
+    version="0.8",
     packages=["triangler"],
     url="https://github.com/tdh8316/triangler",
     license="MIT License",
@@ -18,7 +18,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=install_requires,
-    python_requires=">=3.6",
+    python_requires=">=3.8",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

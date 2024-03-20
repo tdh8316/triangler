@@ -1,127 +1,73 @@
-import logging
-import multiprocessing
-import sys
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
-from typing import List
+import argparse
 
-from triangler import Triangler
-from triangler.color import ColorMethod
-from triangler.edges import EdgeMethod
-from triangler.sampling import SampleMethod
+import triangler
+
+from triangler.edge_detectors import EdgeDetector
+from triangler.renderers import Renderer
+from triangler.samplers import Sampler
+
+from triangler.config import TrianglerConfig
 
 
-# noinspection PyProtectedMember
-def main() -> None:
-    # noinspection PyTypeChecker
-    parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
+def parse_args():
+    parser = argparse.ArgumentParser()
 
-    parser.add_argument("images", help="Source files", nargs="+", type=str)
+    parser.add_argument("input", type=str, help="Input image")
     parser.add_argument(
-        "-o", "--output", help="Destination file", nargs="+", type=str, default=None
+        "-o",
+        "--output",
+        type=str,
+        default="output.png",
+        help="Output image name",
     )
+
     parser.add_argument(
-        "-s",
-        "--sample",
-        help="Sampling method for candidate points.",
-        type=str.upper,
-        default="THRESHOLD",
-        choices=SampleMethod._member_names_,
+        "-p",
+        "--points",
+        type=int,
+        default=1024,
+        help="Number of sample points to use",
     )
     parser.add_argument(
         "-e",
-        "--edge",
-        help="Pre-processing method to use.",
-        type=str.upper,
-        default="SOBEL",
-        choices=EdgeMethod._member_names_,
+        "--edge-detector",
+        type=str,
+        default="sobel",
+        choices=EdgeDetector.__members__,
+        help="Edge detection algorithm",
     )
     parser.add_argument(
-        "-b",
-        "--blur",
-        help="Blur radius for approximate canny edge detector.",
-        type=int,
-        default=2,
-        required=False,
+        "-s",
+        "--sampler",
+        type=str,
+        default="poisson_disk",
+        choices=Sampler.__members__,
+        help="Point sampling algorithm",
     )
     parser.add_argument(
-        "-c",
-        "--color",
-        help="Coloring method for rendering.",
-        type=str.upper,
-        default="CENTROID",
-        choices=ColorMethod._member_names_,
-    )
-    parser.add_argument(
-        "-p", "--points", help="Points threshold.", type=int, default=1024
-    )
-    parser.add_argument(
-        "-l",
-        "--reduce",
-        help="Apply pyramid reduce to result image",
-        action="store_true",
+        "-r",
+        "--renderer",
+        type=str,
+        default="centroid",
+        choices=Renderer.__members__,
+        help="Color polygon rendering algorithm",
     )
 
-    parser.add_argument(
-        "-v", "--verbose", help="Set logger level as DEBUG", action="store_true"
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+
+    triangler_config = TrianglerConfig(
+        n_samples=args.points,
+        edge_detector=EdgeDetector(args.edge_detector),
+        sampler=Sampler(args.sampler),
+        renderer=Renderer(args.renderer),
     )
 
-    args = parser.parse_args()
-
-    # Set logger
-    logging.basicConfig(
-        level=logging.DEBUG if args.verbose else logging.WARNING,
-        format="[%(asctime)s][%(levelname)s] in %(funcName)s(): %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-        stream=sys.stdout,
+    triangler.convert(
+        args.input,
+        args.output,
+        config=triangler_config,
     )
-
-    logging.info("Options:{}".format(args))
-
-    if hasattr(args, "output") and isinstance(args.output, list):
-        if len(args.images) != len(args.output):
-            raise IndexError(
-                "The input and output lengths do not match. (input: {}, output: {})".format(
-                    len(args.images),
-                    len(args.output),
-                )
-            )
-
-    _e = EdgeMethod[args.edge.upper()]
-
-    if _e is EdgeMethod.CANNY:
-        if args.blur < 0:
-            raise ValueError("Blur value must be positive integer.")
-    else:
-        if args.blur != 2:
-            raise UserWarning(
-                "`--blur` option has no effect except in the case of using Canny Edge Detector."
-            )
-
-    # TODO: Recognize wildcard
-
-    t = Triangler(
-        edge_method=_e,
-        color_method=ColorMethod[args.color.upper()],
-        sample_method=SampleMethod[args.sample.upper()],
-        points=args.points,
-        blur=args.blur,
-        pyramid_reduce=args.reduce,
-    )
-
-    # Use multiprocessing to process multiple files at the same time
-    _processes: List[multiprocessing.Process] = []
-    for index, image in enumerate(args.images):
-        _process = multiprocessing.Process(
-            target=t.convert_and_save,
-            args=(
-                image,
-                args.output if not isinstance(args.output, list) else args.output[index],
-                True,
-            ),
-        )
-        _process.daemon = True
-        _processes.append(_process)
-        _process.start()
-
-    for process in _processes:
-        process.join()
