@@ -10,8 +10,8 @@ class CannyConfig:
     g_weight: float = 0.7152
     b_weight: float = 0.0722
     sigma: float = 3.0
-    low_threshold: float = 0.2
-    high_threshold: float = 0.4
+    low_threshold: float = 0.1
+    high_threshold: float = 0.2
 
 
 def canny(
@@ -29,7 +29,6 @@ def canny(
         sigma=config.sigma,
         low_threshold=config.low_threshold,
         high_threshold=config.high_threshold,
-        use_quantiles=True,
     )
 
     return edges

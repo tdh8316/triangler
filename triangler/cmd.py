@@ -18,7 +18,7 @@ def parse_args():
     parser.add_argument(
         "-o",
         "--output",
-        type=Optional[str],
+        type=str,
         default=None,
         help="Output image name",
     )
@@ -82,7 +82,10 @@ def main():
 
     triangler.convert(
         args.input,
-        args.output or f"triangler-{os.path.basename(args.input)}",
+        (
+            args.output
+            or f"{os.path.dirname(args.input)}/triangler-{os.path.basename(args.input)}"
+        ),
         config=triangler_config,
         debug=args.debug,
     )

@@ -52,14 +52,14 @@ def convert(
         filename = os.path.basename(img)
         extension = filename.split(".")[-1]
         img: np.ndarray = skimage.io.imread(img)
+    else:
+        extension = "png"
 
     if not isinstance(img, np.ndarray):
         raise ValueError(
             "Invalid input image. "
             + f"Expected str or np.ndarray type but got {type(img)}.",
         )
-    else:
-        extension = "png"
 
     edges: np.ndarray
     match config.edge_detector:
@@ -133,6 +133,8 @@ def convert(
             )
 
     if save_path:
+        if save_path.split(".")[-1] != extension:
+            save_path = f"{save_path}.{extension}"
         skimage.io.imsave(save_path, result)
 
     return result
