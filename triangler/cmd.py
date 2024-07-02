@@ -1,14 +1,11 @@
 import argparse
 import os.path
-from typing import Optional
 
 import triangler
-
+from triangler.config import TrianglerConfig
 from triangler.edge_detectors import EdgeDetector
 from triangler.renderers import Renderer
 from triangler.samplers import Sampler
-
-from triangler.config import TrianglerConfig
 
 
 def parse_args():
@@ -55,6 +52,12 @@ def parse_args():
         help="Color polygon rendering algorithm",
     )
     parser.add_argument(
+        "-l",
+        "--reduce",
+        action="store_true",
+        help="Reduce the result image size to match the input image",
+    )
+    parser.add_argument(
         "-V",
         "--version",
         action="version",
@@ -87,5 +90,6 @@ def main():
             or f"{os.path.dirname(args.input)}/triangler-{os.path.basename(args.input)}"
         ),
         config=triangler_config,
+        reduce=args.reduce,
         debug=args.debug,
     )

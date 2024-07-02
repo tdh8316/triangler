@@ -27,6 +27,7 @@ def convert(
     sobel_config: SobelConfig = SobelConfig(),
     poisson_disk_config: PoissonDiskConfig = PoissonDiskConfig(),
     threshold_config: ThresholdConfig = ThresholdConfig(),
+    reduce: bool = True,
     debug: bool = False,
 ) -> np.ndarray:
     """
@@ -41,6 +42,7 @@ def convert(
         sobel_config (SobelConfig): Sobel edge detection configuration
         poisson_disk_config (PoissonDiskConfig): Poisson disk sampling configuration
         threshold_config (ThresholdConfig): Threshold sampling configuration
+        reduce (bool): Reduce the result image size to match the input image
         debug (bool): Enable debug mode
 
     Returns:
@@ -131,6 +133,14 @@ def convert(
                 + "Expected one of: "
                 + ", ".join([f"'{r.value}'" for r in Renderer]),
             )
+
+    if reduce:
+        result = skimage.transform.pyramid_reduce(
+            result,
+            downscale=2,
+            channel_axis=-1,
+        )
+        result = img_as_ubyte(result)
 
     if save_path:
         if save_path.split(".")[-1] != extension:
