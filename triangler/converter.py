@@ -1,8 +1,10 @@
+import os
 from typing import Union, Optional
 
 import numpy as np
 import skimage
 from scipy.spatial import Delaunay
+from skimage.util import img_as_ubyte
 
 from triangler import edge_detectors, samplers, renderers
 from triangler.config import TrianglerConfig
@@ -25,6 +27,7 @@ def convert(
     sobel_config: SobelConfig = SobelConfig(),
     poisson_disk_config: PoissonDiskConfig = PoissonDiskConfig(),
     threshold_config: ThresholdConfig = ThresholdConfig(),
+    debug: bool = False,
 ) -> np.ndarray:
     """
     Convert an image into a low-poly art using the Delaunay triangulation
@@ -38,17 +41,25 @@ def convert(
         sobel_config (SobelConfig): Sobel edge detection configuration
         poisson_disk_config (PoissonDiskConfig): Poisson disk sampling configuration
         threshold_config (ThresholdConfig): Threshold sampling configuration
+        debug (bool): Enable debug mode
 
     Returns:
         np.ndarray: The low-poly art (result)
     """
+    filename: Optional[str] = None
+    extension: str
     if isinstance(img, str):
+        filename = os.path.basename(img)
+        extension = filename.split(".")[-1]
         img: np.ndarray = skimage.io.imread(img)
+
     if not isinstance(img, np.ndarray):
         raise ValueError(
             "Invalid input image. "
             + f"Expected str or np.ndarray type but got {type(img)}.",
         )
+    else:
+        extension = "png"
 
     edges: np.ndarray
     match config.edge_detector:
@@ -64,6 +75,12 @@ def convert(
                 + "Expected one of: "
                 + ", ".join([f"'{e.value}'" for e in EdgeDetector]),
             )
+    if debug:
+        if filename:
+            edge_filename = f"edges_{filename}"
+        else:
+            edge_filename = f"edges.{extension}"
+        skimage.io.imsave(edge_filename, img_as_ubyte(edges))
 
     sample_points: np.ndarray
     match config.sampler:

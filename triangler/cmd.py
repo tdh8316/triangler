@@ -1,4 +1,6 @@
 import argparse
+import os.path
+from typing import Optional
 
 import triangler
 
@@ -16,8 +18,8 @@ def parse_args():
     parser.add_argument(
         "-o",
         "--output",
-        type=str,
-        default="output.png",
+        type=Optional[str],
+        default=None,
         help="Output image name",
     )
 
@@ -52,6 +54,18 @@ def parse_args():
         choices=Renderer,
         help="Color polygon rendering algorithm",
     )
+    parser.add_argument(
+        "-V",
+        "--version",
+        action="version",
+        version=f"triangler {triangler.__version__}",
+    )
+    parser.add_argument(
+        "-d",
+        "--debug",
+        action="store_true",
+        help="Enable debug mode",
+    )
 
     return parser.parse_args()
 
@@ -68,6 +82,7 @@ def main():
 
     triangler.convert(
         args.input,
-        args.output,
+        args.output or f"triangler-{os.path.basename(args.input)}",
         config=triangler_config,
+        debug=args.debug,
     )
