@@ -10,7 +10,7 @@
 
 📐 Convert images to Low-Poly art using [Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation).
 
-![sample](./docs/m_tri3.jpg)
+![sample](images/triangler-monroe.jpg)
 
 ## Table of contents
 
@@ -27,7 +27,7 @@ You need [Python](https://www.python.org/) 3.10 or higher.
 I strongly recommend to use virtual environment such as Anaconda.
 You can [download Anaconda here](https://www.anaconda.com/distribution/#download-section).
 
-Follow manual below to create python virtual environment for Triangler with the Anaconda.
+Follow manual below to create conda virtual environment for Triangler with the Anaconda.
 
 ```cmd
 $ conda create -n triangler python=3.12
@@ -39,8 +39,6 @@ $ activate triangler
 
 ```
 (triangler)$ python -m triangler -h
-usage: __main__.py [-h] [-o OUTPUT] [-p POINTS] [-e {CANNY,ENTROPY,SOBEL}] [-s {POISSON_DISK,THRESHOLD}] [-r {CENTROID,MEAN}] input
-
 positional arguments:
   input                 Input image
 
@@ -50,17 +48,19 @@ options:
                         Output image name
   -p POINTS, --points POINTS
                         Number of sample points to use
-  -e {CANNY,ENTROPY,SOBEL}, --edge-detector {CANNY,ENTROPY,SOBEL}
+  -e {EdgeDetector.CANNY,EdgeDetector.ENTROPY,EdgeDetector.SOBEL}, --edge-detector {EdgeDetector.CANNY,EdgeDetector.ENTROPY,EdgeDetector.SOBEL}
                         Edge detection algorithm
-  -s {POISSON_DISK,THRESHOLD}, --sampler {POISSON_DISK,THRESHOLD}
+  -s {Sampler.POISSON_DISK,Sampler.THRESHOLD}, --sampler {Sampler.POISSON_DISK,Sampler.THRESHOLD}
                         Point sampling algorithm
-  -r {CENTROID,MEAN}, --renderer {CENTROID,MEAN}
+  -r {Renderer.CENTROID,Renderer.MEAN}, --renderer {Renderer.CENTROID,Renderer.MEAN}
                         Color polygon rendering algorithm
+  -V, --version         show program's version number and exit
+  -d, --debug           Enable debug mode
 ```
 
 ## API
 
-You can use Triangler as a library.
+You can also use Triangler as a library.
 
 ```python
 import triangler
@@ -75,19 +75,18 @@ triangler.convert(
 
 ### Effect of the number of points
 
-|           Original           |         5000 Points          |
-|:----------------------------:|:----------------------------:|
-|   ![sample](./docs/m.jpg)    | ![sample](./docs/m_tri.jpg)  |
-|       **2500 Points**        |       **1000 Points**        |
-| ![sample](./docs/m_tri2.jpg) | ![sample](./docs/m_tri3.jpg) |
+|                Original Image                |                 5000 Points                  |
+|:--------------------------------------------:|:--------------------------------------------:|
+|         ![sample](images/monroe.jpg)         | ![sample](images/triangler-monroe-5000p.jpg) |
+|               **1000 Points**                |                **500 Points**                |
+| ![sample](images/triangler-monroe-1000p.jpg) | ![sample](images/triangler-monroe-500p.jpg)  |
 
 ### More samples
 
-| Original                     | Triangler                        |
-|------------------------------|----------------------------------|
-| ![sample](./docs/birds.jpg)  | ![sample](./docs/birds_tri.jpg)  |
-| ![sample](./docs/yeji2.jpg)  | ![sample](./docs/yeji2_tri.jpg)  |
-| ![sample](./docs/parrot.jpg) | ![sample](./docs/parrot_tri.jpg) |
+| Original                    | Triangler                             |
+|-----------------------------|---------------------------------------|
+| ![sample](images/birds.jpg) | ![sample](images/triangler-birds.jpg) |
+
 
 ## License
 
