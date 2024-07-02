@@ -16,7 +16,7 @@ class SobelConfig:
 
 def sobel(
     img: np.ndarray,
-    config: SobelConfig = SobelConfig(),
+    config: SobelConfig,
 ) -> np.ndarray:
     r_weight, g_weight, b_weight = config.r_weight, config.g_weight, config.b_weight
     kernel_x, kernel_y = config.kernel_x, config.kernel_y
