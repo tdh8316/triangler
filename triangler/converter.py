@@ -28,6 +28,7 @@ def convert(
     poisson_disk_config: PoissonDiskConfig = PoissonDiskConfig(),
     threshold_config: ThresholdConfig = ThresholdConfig(),
     reduce: bool = True,
+    add_corners: bool = True,
     debug: bool = False,
 ) -> np.ndarray:
     """
@@ -43,6 +44,7 @@ def convert(
         poisson_disk_config (PoissonDiskConfig): Poisson disk sampling configuration
         threshold_config (ThresholdConfig): Threshold sampling configuration
         reduce (bool): Reduce the result image size to match the input image
+        add_corners (bool): Add the corners of the image to the sample points
         debug (bool): Enable debug mode
 
     Returns:
@@ -51,11 +53,15 @@ def convert(
     filename: Optional[str] = None
     extension: str
     if isinstance(img, str):
+        if debug:
+            print(f"[DEBUG] Read image from '{img}'")
         filename = os.path.basename(img)
         extension = filename.split(".")[-1]
         img: np.ndarray = skimage.io.imread(img)
     else:
         extension = "png"
+    if debug:
+        print(f"[DEBUG] Image extension: {extension}")
 
     if not isinstance(img, np.ndarray):
         raise ValueError(
@@ -63,7 +69,12 @@ def convert(
             + f"Expected str or np.ndarray type but got {type(img)}.",
         )
 
+    if debug:
+        print(f"[DEBUG] Image shape: {img.shape}")
+
     edges: np.ndarray
+    if debug:
+        print(f"[DEBUG] Edge detection algorithm: {config.edge_detector}")
     match config.edge_detector:
         case EdgeDetector.SOBEL:
             edges = edge_detectors.sobel(img, sobel_config)
@@ -82,9 +93,12 @@ def convert(
             edge_filename = f"edges_{filename}"
         else:
             edge_filename = f"edges.{extension}"
+        print(f"[DEBUG] Save edges to '{edge_filename}'")
         skimage.io.imsave(edge_filename, img_as_ubyte(edges))
 
     sample_points: np.ndarray
+    if debug:
+        print(f"[DEBUG] Sampling algorithm: {config.sampler}")
     match config.sampler:
         case Sampler.POISSON_DISK:
             sample_points = samplers.poisson_disk_sampling(
@@ -106,22 +120,27 @@ def convert(
             )
 
     # Add the corners of the image to the sample points
-    corners = np.array(
-        [
-            [0, 0],
-            [0, int(img.shape[1] / 2)],
-            [0, img.shape[1]],
-            [img.shape[0], 0],
-            [img.shape[0], int(img.shape[1] / 2)],
-            [img.shape[0], img.shape[1]],
-            [int(img.shape[0] / 2), int(img.shape[1] / 2)],
-        ]
-    )
-    sample_points = np.concatenate([sample_points, corners], axis=0)
+    if add_corners:
+        if debug:
+            print("[DEBUG] Add heuristic points to the sample points")
+        corners = np.array(
+            [
+                [0, 0],
+                [0, int(img.shape[1] / 2)],
+                [0, img.shape[1]],
+                [img.shape[0], 0],
+                [img.shape[0], int(img.shape[1] / 2)],
+                [img.shape[0], img.shape[1]],
+                [int(img.shape[0] / 2), int(img.shape[1] / 2)],
+            ]
+        )
+        sample_points = np.concatenate([sample_points, corners], axis=0)
 
     triangulated: Delaunay = Delaunay(sample_points)
     triangles = sample_points[triangulated.simplices]
 
+    if debug:
+        print(f"[DEBUG] Rendering algorithm: {config.renderer}")
     match config.renderer:
         case Renderer.CENTROID:
             result = renderers.centroid(img, triangles)
@@ -135,6 +154,8 @@ def convert(
             )
 
     if reduce:
+        if debug:
+            print("[DEBUG] Resize the result image to match the input image")
         result = skimage.transform.pyramid_reduce(
             result,
             downscale=2,
@@ -145,6 +166,8 @@ def convert(
     if save_path:
         if save_path.split(".")[-1] != extension:
             save_path = f"{save_path}.{extension}"
+        if debug:
+            print(f"[DEBUG] Save the result to '{save_path}'")
         skimage.io.imsave(save_path, result)
 
     return result

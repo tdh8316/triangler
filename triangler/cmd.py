@@ -1,5 +1,5 @@
 import argparse
-import os.path
+from os.path import basename, dirname
 
 import triangler
 from triangler.config import TrianglerConfig
@@ -31,7 +31,7 @@ def parse_args():
         "-e",
         "--edge-detector",
         type=str,
-        default="sobel",
+        default=EdgeDetector.SOBEL,
         choices=EdgeDetector,
         help="Edge detection algorithm",
     )
@@ -39,7 +39,7 @@ def parse_args():
         "-s",
         "--sampler",
         type=str,
-        default="poisson_disk",
+        default=Sampler.POISSON_DISK,
         choices=Sampler,
         help="Point sampling algorithm",
     )
@@ -47,7 +47,7 @@ def parse_args():
         "-r",
         "--renderer",
         type=str,
-        default="centroid",
+        default=Renderer.CENTROID,
         choices=Renderer,
         help="Color polygon rendering algorithm",
     )
@@ -85,10 +85,7 @@ def main():
 
     triangler.convert(
         args.input,
-        (
-            args.output
-            or f"{os.path.dirname(args.input)}/triangler-{os.path.basename(args.input)}"
-        ),
+        (args.output or f"{dirname(args.input)}/triangler-{basename(args.input)}"),
         config=triangler_config,
         reduce=args.reduce,
         debug=args.debug,
