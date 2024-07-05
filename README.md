@@ -48,12 +48,13 @@ options:
                         Output image name
   -p POINTS, --points POINTS
                         Number of sample points to use
-  -e {EdgeDetector.CANNY,EdgeDetector.ENTROPY,EdgeDetector.SOBEL}, --edge-detector {EdgeDetector.CANNY,EdgeDetector.ENTROPY,EdgeDetector.SOBEL}
+  -e {canny,entropy,sobel}, --edge-detector {canny,entropy,sobel}
                         Edge detection algorithm
-  -s {Sampler.POISSON_DISK,Sampler.THRESHOLD}, --sampler {Sampler.POISSON_DISK,Sampler.THRESHOLD}
+  -s {poisson_disk,threshold}, --sampler {poisson_disk,threshold}
                         Point sampling algorithm
-  -r {Renderer.CENTROID,Renderer.MEAN}, --renderer {Renderer.CENTROID,Renderer.MEAN}
+  -r {centroid,mean}, --renderer {centroid,mean}
                         Color polygon rendering algorithm
+  -l, --reduce          Reduce the result image size to match the input image
   -V, --version         show program's version number and exit
   -d, --debug           Enable debug mode
 ```

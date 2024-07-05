@@ -29,7 +29,7 @@ def parse_args():
         "--edge-detector",
         type=str,
         default=EdgeDetector.SOBEL,
-        choices=EdgeDetector,
+        choices=[e.value for e in EdgeDetector],
         help="Edge detection algorithm",
     )
     parser.add_argument(
@@ -37,7 +37,7 @@ def parse_args():
         "--sampler",
         type=str,
         default=Sampler.POISSON_DISK,
-        choices=Sampler,
+        choices=[s.value for s in Sampler],
         help="Point sampling algorithm",
     )
     parser.add_argument(
@@ -45,7 +45,7 @@ def parse_args():
         "--renderer",
         type=str,
         default=Renderer.CENTROID,
-        choices=Renderer,
+        choices=[r.value for r in Renderer],
         help="Color polygon rendering algorithm",
     )
     parser.add_argument(
