@@ -4,4 +4,4 @@ from triangler.edge_detectors import EdgeDetector
 from triangler.renderers import Renderer
 from triangler.samplers import Sampler
 
-__version__ = "0.9.3"
+__version__ = "0.9.4"
