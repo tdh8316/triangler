@@ -9,7 +9,7 @@ with open("requirements.txt") as rq:
 setup(
     name="triangler",
     version=__import__("triangler").__version__,
-    packages=["triangler"],
+    packages=["triangler", "triangler.edge_detectors", "triangler.renderers", "triangler.samplers"],
     url="https://github.com/tdh8316/triangler",
     license="MIT License",
     author="Donghyeok Tak",
