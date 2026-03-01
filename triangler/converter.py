@@ -1,32 +1,32 @@
 import os
-from typing import Union, Optional
+from typing import Optional, Union
 
 import numpy as np
 import skimage
 from scipy.spatial import Delaunay
 from skimage.util import img_as_ubyte
 
-from triangler import edge_detectors, samplers, renderers
+from triangler import edge_detectors, renderers, samplers
 from triangler.config import TrianglerConfig
 from triangler.edge_detectors import (
-    EdgeDetector,
-    SobelConfig,
     CannyConfig,
+    EdgeDetector,
     EntropyConfig,
+    SobelConfig,
 )
 from triangler.renderers import Renderer
-from triangler.samplers import Sampler, PoissonDiskConfig, ThresholdConfig
+from triangler.samplers import PoissonDiskConfig, Sampler, ThresholdConfig
 
 
 def convert(
-    img: Union[np.ndarray, str],
+    img: Union[np.ndarray, str],  # type: ignore[override]
     save_path: Optional[str] = None,
-    config: TrianglerConfig = TrianglerConfig(),
-    canny_config: CannyConfig = CannyConfig(),
-    entropy_config: EntropyConfig = EntropyConfig(),
-    sobel_config: SobelConfig = SobelConfig(),
-    poisson_disk_config: PoissonDiskConfig = PoissonDiskConfig(),
-    threshold_config: ThresholdConfig = ThresholdConfig(),
+    config: Optional[TrianglerConfig] = None,
+    canny_config: Optional[CannyConfig] = None,
+    entropy_config: Optional[EntropyConfig] = None,
+    sobel_config: Optional[SobelConfig] = None,
+    poisson_disk_config: Optional[PoissonDiskConfig] = None,
+    threshold_config: Optional[ThresholdConfig] = None,
     reduce: bool = True,
     add_corners: bool = True,
     debug: bool = False,
@@ -50,6 +50,19 @@ def convert(
     Returns:
         np.ndarray: The low-poly art (result)
     """
+    if config is None:
+        config = TrianglerConfig()
+    if canny_config is None:
+        canny_config = CannyConfig()
+    if entropy_config is None:
+        entropy_config = EntropyConfig()
+    if sobel_config is None:
+        sobel_config = SobelConfig()
+    if poisson_disk_config is None:
+        poisson_disk_config = PoissonDiskConfig()
+    if threshold_config is None:
+        threshold_config = ThresholdConfig()
+
     filename: Optional[str] = None
     extension: str
     if isinstance(img, str):
@@ -123,16 +136,21 @@ def convert(
     if add_corners:
         if debug:
             print("[DEBUG] Add heuristic points to the sample points")
+        max_row = img.shape[0] - 1
+        max_col = img.shape[1] - 1
+        mid_row = max_row // 2
+        mid_col = max_col // 2
         corners = np.array(
             [
                 [0, 0],
-                [0, int(img.shape[1] / 2)],
-                [0, img.shape[1]],
-                [img.shape[0], 0],
-                [img.shape[0], int(img.shape[1] / 2)],
-                [img.shape[0], img.shape[1]],
-                [int(img.shape[0] / 2), int(img.shape[1] / 2)],
-            ]
+                [0, mid_col],
+                [0, max_col],
+                [max_row, 0],
+                [max_row, mid_col],
+                [max_row, max_col],
+                [mid_row, mid_col],
+            ],
+            dtype=sample_points.dtype,
         )
         sample_points = np.concatenate([sample_points, corners], axis=0)
 
@@ -156,10 +174,11 @@ def convert(
     if reduce:
         if debug:
             print("[DEBUG] Resize the result image to match the input image")
+        channel_axis = -1 if result.ndim == 3 else None
         result = skimage.transform.pyramid_reduce(
             result,
             downscale=2,
-            channel_axis=-1,
+            channel_axis=channel_axis,
         )
         result = img_as_ubyte(result)
 

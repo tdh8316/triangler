@@ -20,8 +20,16 @@ def canny(
 ) -> np.ndarray:
     # Convert the image to grayscale
     r_weight, g_weight, b_weight = config.r_weight, config.g_weight, config.b_weight
-    if img.shape[-1] > 1:  # if the image is multichannel
-        img = np.dot(img[..., :3], [r_weight, g_weight, b_weight])
+    if img.ndim == 3:
+        if img.shape[2] > 1:  # RGB/RGBA
+            img = np.dot(img[..., :3], [r_weight, g_weight, b_weight])
+        else:
+            img = img[..., 0]
+    elif img.ndim != 2:
+        raise ValueError(
+            "Invalid image shape. Expected 2D (grayscale) or 3D (color) array "
+            + f"but got shape={img.shape}."
+        )
 
     # Canny edge detection
     edges: np.ndarray = feature.canny(

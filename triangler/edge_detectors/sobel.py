@@ -22,11 +22,17 @@ def sobel(
     kernel_x, kernel_y = config.kernel_x, config.kernel_y
 
     img = img.astype(np.float32)
-    _, _, c = img.shape  # get the number of channels
-
-    # Convert the image to grayscale if it has more than 1 channel
-    if c > 1:
-        img = np.dot(img[..., :3], [r_weight, g_weight, b_weight])
+    if img.ndim == 3:
+        # Convert RGB/RGBA to grayscale using luminance weights.
+        if img.shape[2] > 1:
+            img = np.dot(img[..., :3], [r_weight, g_weight, b_weight])
+        else:
+            img = img[..., 0]
+    elif img.ndim != 2:
+        raise ValueError(
+            "Invalid image shape. Expected 2D (grayscale) or 3D (color) array "
+            + f"but got shape={img.shape}."
+        )
 
     # Sobel kernels
     if kernel_x is None:
@@ -56,6 +62,10 @@ def sobel(
     grad_mag = np.sqrt(img_x**2 + img_y**2)
 
     # Normalize the gradient magnitude
-    grad_mag *= 255.0 / grad_mag.max()
+    max_grad = grad_mag.max()
+    if max_grad > 0:
+        grad_mag *= 255.0 / max_grad
+    else:
+        grad_mag.fill(0)
 
     return grad_mag.astype(np.uint8)
