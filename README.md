@@ -72,6 +72,10 @@ triangler.convert(
 )
 ```
 
+For configurable edge detection, sampling, and rendering, see
+[`examples/convert_custom.py`](examples/convert_custom.py). Edit the image paths
+and settings, then run `python examples/convert_custom.py` with Triangler installed.
+
 ## Sample
 
 ### Effect of the number of points
